@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/icon_home"
+            android:title="Lớp học"/>
+
+        <item
+            android:id="@+id/notifications"
+            android:icon="@drawable/icon_notification"
+            android:title="Thông báo"/>
+
+        <item
+            android:id="@+id/ArchivedClasses"
+            android:icon="@drawable/icon_archive"
+            android:title="Lớp học lưu trữ"/>
+
+        <item
+            android:id="@+id/Settings"
+            android:icon="@drawable/icon_settings"
+            android:title="Cài đặt"/>
+
+    </group>
+</menu>
