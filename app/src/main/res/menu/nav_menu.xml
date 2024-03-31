@@ -27,5 +27,10 @@
             android:icon="@drawable/icon_settings"
             android:title="Cài đặt"/>
 
+        <item
+            android:id="@+id/Exer"
+            android:icon="@drawable/ic_assign"
+            android:title="Bài tập"/>
+
     </group>
 </menu>

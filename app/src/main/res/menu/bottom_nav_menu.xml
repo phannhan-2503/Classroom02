@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_new"
-        android:icon="@drawable/news_24"
-        android:title="@string/title_bangtin" />
+        android:id="@+id/navigation_notifi"
+        android:icon="@drawable/ic_notifi"
+        android:title="Bảng tin"/>
 
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/homework_23"
-        android:title="@string/title_baitap" />
+        android:id="@+id/navigation_exer"
+        android:icon="@drawable/ic_assign"
+        android:title="Bài tập trên lớp" />
 
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/person_22"
-        android:title="@string/title_moinguoi" />
+        android:id="@+id/navigation_people"
+        android:icon="@drawable/ic_people"
+        android:title="Mọi người" />
 
 </menu>
