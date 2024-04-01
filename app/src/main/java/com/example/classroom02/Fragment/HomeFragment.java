@@ -1,21 +1,28 @@
 package com.example.classroom02.Fragment;
 
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.example.classroom02.Adapter.Classroom;
 import com.example.classroom02.Adapter.ClassroomAdapter;
@@ -36,8 +43,8 @@ public class HomeFragment extends Fragment {
     private ClassroomAdapter classroomAdapter;
     private DatabaseReference databaseReference;
     private ImageView btSelections;
-    private View homeMenuView; // Đối tượng View của home_menu layout
-    private PopupWindow popupWindow; // PopupWindow để hiển thị home_menu layout
+    private View homeMenuView;
+    private PopupWindow popupWindow;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,6 +86,19 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        // Tìm TextView trong layout của fragment có id là join_class
+        TextView joinClassTextView = homeMenuView.findViewById(R.id.join_class);
+
+        // Thiết lập sự kiện nhấn cho TextView join_class
+        joinClassTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                // Khi TextView join_class được nhấn, mở fragment mới ở đây
+                openNewFragment();
+            }
+        });
+
         // Kết nối với Firebase Realtime Database
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Class");
 
@@ -91,7 +111,6 @@ public class HomeFragment extends Fragment {
                     String name = snapshot.child("Name").getValue(String.class);
                     String imageUrl = snapshot.child("Url").getValue(String.class);
 
-                    // Trong trường hợp bạn có thêm trường ảnh, bạn có thể lấy ảnh tương tự
                     list.add(new Classroom(imageUrl, name));
                 }
                 // Cập nhật RecyclerView với danh sách mới
@@ -103,9 +122,21 @@ public class HomeFragment extends Fragment {
                 // Xử lý lỗi nếu có
             }
         });
-
         return view;
-
     }
 
+    // Phương thức để mở fragment mới
+    private void openNewFragment() {
+        // Tạo instance của fragment mới cần mở
+        Fragment newFragment = new JoinclassFragment(); // Thay YourNewFragment bằng tên fragment bạn muốn mở
+
+        // Lấy instance của FragmentManager
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        // Bắt đầu transaction để thay thế fragment hiện tại bằng fragment mới
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, newFragment); // Thay R.id.fragment_container bằng id của layout chứa fragment trong activity của bạn
+        fragmentTransaction.addToBackStack(null); // (Optional) Cho phép nhấn nút back để quay lại fragment trước đó
+        fragmentTransaction.commit();
+    }
 }
