@@ -10,18 +10,19 @@
         android:text="Tham gia lớp học"
         android:textAlignment="center"
         android:textSize="40sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hãy hỏi giáo viên của bạn mã lớp để tham gia lớp học:"
+        android:text="Hãy hỏi giáo viên của bạn mã lớp và nhập vaò bên dưới để tham gia lớp học:"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textColor="@color/black"/>
     <EditText
         android:id="@+id/editText_join"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:inputType="text"
-        android:text="Nhập mã lớp"/>
+        android:inputType="text" />
 </LinearLayout>

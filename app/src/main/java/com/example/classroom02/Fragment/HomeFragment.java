@@ -95,10 +95,22 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 popupWindow.dismiss();
                 // Khi TextView join_class được nhấn, mở fragment mới ở đây
-                openNewFragment();
+                openJoinClassFragment();
             }
         });
 
+        // Tìm TextView trong layout của fragment có id là join_class
+        TextView createClassTextView = homeMenuView.findViewById(R.id.create_class);
+
+        // Thiết lập sự kiện nhấn cho TextView join_class
+        createClassTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                // Khi TextView join_class được nhấn, mở fragment mới ở đây
+                openCreateClassFragment();
+            }
+        });
         // Kết nối với Firebase Realtime Database
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Class");
 
@@ -126,9 +138,23 @@ public class HomeFragment extends Fragment {
     }
 
     // Phương thức để mở fragment mới
-    private void openNewFragment() {
+    private void openJoinClassFragment() {
         // Tạo instance của fragment mới cần mở
         Fragment newFragment = new JoinclassFragment(); // Thay YourNewFragment bằng tên fragment bạn muốn mở
+
+        // Lấy instance của FragmentManager
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        // Bắt đầu transaction để thay thế fragment hiện tại bằng fragment mới
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, newFragment); // Thay R.id.fragment_container bằng id của layout chứa fragment trong activity của bạn
+        fragmentTransaction.addToBackStack(null); // (Optional) Cho phép nhấn nút back để quay lại fragment trước đó
+        fragmentTransaction.commit();
+    }
+    // Phương thức để mở fragment mới
+    private void openCreateClassFragment() {
+        // Tạo instance của fragment mới cần mở
+        Fragment newFragment = new CreateclassFragment(); // Thay YourNewFragment bằng tên fragment bạn muốn mở
 
         // Lấy instance của FragmentManager
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
