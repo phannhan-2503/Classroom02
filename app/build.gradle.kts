@@ -43,6 +43,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
+    //implementation("androidx.databinding:viewbinding:8.2.1")
+
 
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
@@ -52,4 +54,6 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
 
     implementation("com.squareup.picasso:picasso:2.71828")
+
+    implementation("androidx.databinding:viewbinding:8.2.1")
 }

@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 
 import com.example.classroom02.R;
 
-public class ExerFragment extends Fragment {
+public class TeachFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        return inflater.inflate(R.layout.fragment_teacher, container, false);
     }
 }
