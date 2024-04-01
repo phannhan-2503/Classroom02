@@ -1,5 +1,6 @@
 package com.example.classroom02.Fragment;
 
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -8,10 +9,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 
 import com.example.classroom02.Adapter.Classroom;
 import com.example.classroom02.Adapter.ClassroomAdapter;
@@ -31,6 +35,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView rcvClassroom;
     private ClassroomAdapter classroomAdapter;
     private DatabaseReference databaseReference;
+    private ImageView btSelections;
+    private View homeMenuView; // Đối tượng View của home_menu layout
+    private PopupWindow popupWindow; // PopupWindow để hiển thị home_menu layout
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,6 +57,27 @@ public class HomeFragment extends Fragment {
 
         // Đặt adapter cho RecyclerView
         rcvClassroom.setAdapter(classroomAdapter);
+
+        // Tìm ImageView trong layout của fragment
+        btSelections = view.findViewById(R.id.bt_selections);
+
+        // Tìm View của home_menu layout
+        homeMenuView = inflater.inflate(R.layout.home_menu, null);
+
+        // Thiết lập sự kiện nhấn cho ImageView
+        btSelections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo PopupWindow
+                popupWindow = new PopupWindow(homeMenuView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+                Point screenSize = new Point();
+                getActivity().getWindowManager().getDefaultDisplay().getSize(screenSize);
+
+                // Hiển thị PopupWindow ở vị trí cuối màn hình
+                popupWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            }
+        });
 
         // Kết nối với Firebase Realtime Database
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Class");
