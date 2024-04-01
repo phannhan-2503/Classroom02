@@ -68,4 +68,10 @@
         android:layout_marginTop="10dp"
         android:inputType="text"
         android:text=""/>
+    <Button
+        android:id="@+id/button_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Xác nhận"/>
 </LinearLayout>
