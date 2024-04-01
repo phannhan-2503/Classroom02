@@ -120,10 +120,10 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Classroom> list = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String name = snapshot.child("Name").getValue(String.class);
-                    String imageUrl = snapshot.child("Url").getValue(String.class);
+                    String Name = snapshot.child("name").getValue(String.class);
+                    String imageUrl = snapshot.child("imageUrl").getValue(String.class);
 
-                    list.add(new Classroom(imageUrl, name));
+                    list.add(new Classroom(imageUrl, Name));
                 }
                 // Cập nhật RecyclerView với danh sách mới
                 classroomAdapter.setData(list);
