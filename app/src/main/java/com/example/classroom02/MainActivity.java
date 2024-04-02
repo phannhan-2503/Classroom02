@@ -9,13 +9,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.classroom02.Fragment.ArchivedClassesFragment;
 import com.example.classroom02.Fragment.HomeFragment;
 import com.example.classroom02.Fragment.NotificationFragment;
 import com.example.classroom02.Fragment.SettingsFragment;
+import com.example.classroom02.Fragment.UserInfoFragment;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -49,10 +50,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ArchivedClassesFragment()).commit();
         } else if (item.getItemId() == R.id.Settings) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
+        } else if (item.getItemId() == R.id.Users) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new UserInfoFragment()).commit();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
