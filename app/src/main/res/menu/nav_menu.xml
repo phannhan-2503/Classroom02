@@ -26,11 +26,9 @@
             android:id="@+id/Settings"
             android:icon="@drawable/icon_settings"
             android:title="Cài đặt"/>
-
         <item
-            android:id="@+id/Exer"
-            android:icon="@drawable/ic_assign"
-            android:title="Bài tập"/>
-
+            android:id="@+id/Users"
+            android:icon="@drawable/user"
+            android:title="Tài khoản"/>
     </group>
 </menu>
