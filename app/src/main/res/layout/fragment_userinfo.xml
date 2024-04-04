@@ -127,18 +127,20 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btnUpdate"
+                android:id="@+id/Update"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Cập nhật"
-                app:cornerRadius="32dp"/>
+                app:cornerRadius="32dp"
+                android:onClick="onButtonClickUpdate"/>
 
             <Button
-                android:id="@+id/btnChange"
+                android:id="@+id/Change"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Đổi mật khẩu"
-                app:cornerRadius="32dp" />
+                app:cornerRadius="32dp"
+                android:onClick="onButtonClickChange"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

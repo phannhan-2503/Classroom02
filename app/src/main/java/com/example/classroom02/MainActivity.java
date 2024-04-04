@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,8 +16,10 @@ import android.view.View;
 import com.example.classroom02.Fragment.ArchivedClassesFragment;
 import com.example.classroom02.Fragment.HomeFragment;
 import com.example.classroom02.Fragment.NotificationFragment;
+import com.example.classroom02.Fragment.PasswordUpdateFragment;
 import com.example.classroom02.Fragment.SettingsFragment;
 import com.example.classroom02.Fragment.UserInfoFragment;
+import com.example.classroom02.Fragment.UserUpdateFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,7 +60,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void onButtonClickUpdate(View view) {
+        // Thực hiện phương thức của bạn ở đây
+        replaceFragmentUpdate();
+    }
+    public void replaceFragmentUpdate() {
+        UserUpdateFragment usersUpdateFragment = new UserUpdateFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, usersUpdateFragment);
+        ((FragmentTransaction) fragmentTransaction).addToBackStack(null); // Thêm Fragment vào back stack để quay trở lại
+        fragmentTransaction.commit();
+    }
 
+    public void onButtonClickChange(View view) {
+        // Thực hiện phương thức của bạn ở đây
+        replaceFragmentChange();
+    }
+    public void replaceFragmentChange() {
+        PasswordUpdateFragment passwordUpdateFragment = new PasswordUpdateFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, passwordUpdateFragment);
+        ((FragmentTransaction) fragmentTransaction).addToBackStack(null); // Thêm Fragment vào back stack để quay trở lại
+        fragmentTransaction.commit();
+    }
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
