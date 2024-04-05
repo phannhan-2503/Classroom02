@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.addbaigiangFragment"
+        android:background="@color/white"
+        android:orientation="vertical"
+        >
+        <include layout="@layout/toolbar_add"></include>
+        <!--    <androidx.appcompat.widget.Toolbar-->
+        <!--        android:id="@+id/toolbar"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="?attr/actionBarSize"-->
+        <!--        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+        <!--        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+        <!--        >-->
+        <!--        <include layout="@layout/toolbar_add"></include>-->
+        <!--    </androidx.appcompat.widget.Toolbar>-->
+
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/black" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/text"
+                android:backgroundTint="#878383"
+                android:textSize="16dp"/>
+
+            <EditText
+                android:id="@+id/ed_addndthongbao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Thông báo nội dung nào đó cho lớp"
+                android:textSize="16dp"
+                android:background="@null"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/black" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_addfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:paddingStart="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/link"
+                android:backgroundTint="#878383"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/btn_add_choosefile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thêm tệp đính kèm"
+                android:textSize="16dp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/black" />
+
+
+    </LinearLayout>
+

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.quanlybantingiaovien.ui.news.NewsFragment"
+        android:label="@string/title_bangtin"
+        tools:layout="@layout/fragment_news" >
+
+        <action
+            android:id="@+id/action_navigation_home_to_addfragment"
+            app:destination="@id/addfragmentbaigiang" />
+        <action
+            android:id="@+id/action_navigation_home_to_updatefragmentbaigiang"
+            app:destination="@id/updatefragmentbaigiang" />
+        <action
+            android:id="@+id/action_navigation_home_to_chitietfragmentbaigiang"
+            app:destination="@id/chitietfragmentbaigiang" />
+        <action
+            android:id="@+id/action_navigation_home_to_nhanxetfragmentbaigiang"
+            app:destination="@id/nhanxetfragmentbaigiang" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.quanlybantingiaovien.ui.dashboard.DashboardFragment"
+        android:label="@string/title_baitap"
+        tools:layout="@layout/fragment_homework" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.quanlybantingiaovien.ui.notifications.NotificationsFragment"
+        android:label="@string/title_moinguoi"
+        tools:layout="@layout/fragment_people" />
+    <fragment
+        android:id="@+id/addfragmentbaigiang"
+        android:name="com.example.quanlybantingiaovien.ui.fragment.addbaigiangFragment"
+        android:label="add"
+        tools:layout="@layout/fragment_addbbaigiang" />
+    <fragment
+        android:id="@+id/updatefragmentbaigiang"
+        android:name="com.example.quanlybantingiaovien.ui.fragment.updatebaigiangFragment"
+        android:label="update"
+        tools:layout="@layout/fragment_updatebaigiang" />
+    <fragment
+        android:id="@+id/chitietfragmentbaigiang"
+        android:name="com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment"
+        android:label="detail"
+        tools:layout="@layout/fragment_chitietbaigiang" />
+    <fragment
+        android:id="@+id/nhanxetfragmentbaigiang"
+        android:name="com.example.quanlybantingiaovien.ui.fragment.nhanxetFragment"
+        android:label="detail"
+        tools:layout="@layout/fragment_nhanxet" />
+</navigation>
