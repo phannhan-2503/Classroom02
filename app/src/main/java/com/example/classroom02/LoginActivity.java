@@ -2,6 +2,7 @@ package com.example.classroom02;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,15 +13,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.classroom02.Adapter.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     TextInputEditText editTextEmail, editTextPassword;
@@ -40,6 +46,40 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    public void checkUser(){
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query checkUserDataBase = reference.orderByChild("email").equalTo(email);
+
+        checkUserDataBase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    editTextEmail.setError(null);
+                    String passwordFromDB = snapshot.child(email).child("password").getValue(String.class);
+                    if (!Objects.equals(passwordFromDB, password)){
+                        editTextEmail.setError(null);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        editTextPassword.setError("Error");
+                        editTextPassword.requestFocus();
+                    }
+                } else {
+                    editTextEmail.setError("User does not exists");
+                    editTextEmail.requestFocus();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
@@ -57,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
+//                checkUser();
             }
         });
     }
