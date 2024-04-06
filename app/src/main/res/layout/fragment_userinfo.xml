@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:layout_marginBottom="-20dp">
+    android:layout_marginBottom="-20dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,25 +19,30 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:src="@drawable/user"/>
+            android:src="@drawable/user"
+            android:id="@+id/userimage"/>
 
         <TextView
+            android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="User"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="32sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="DuplicateIds" />
 
         <TextView
+            android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="abcxyz@gmail.com"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="DuplicateIds" />
 
         <View
             android:layout_width="wrap_content"
@@ -71,10 +77,11 @@
                 android:id="@+id/txtName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Nguyen Van A"
+                android:text=""
                 android:textSize="30dp"
                 android:paddingLeft="10dp"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                tools:ignore="DuplicateIds" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,10 +100,11 @@
                 android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="abcxyz@gmail.com"
+                android:text=""
                 android:textSize="30dp"
                 android:paddingLeft="10dp"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                tools:ignore="DuplicateIds" />
         </LinearLayout>
 
         <LinearLayout
@@ -115,7 +123,7 @@
                 android:id="@+id/txtPhone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="0909090909"
+                android:text=""
                 android:textSize="30dp"
                 android:paddingLeft="10dp"
                 android:textAlignment="center"/>
@@ -139,6 +147,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Đổi mật khẩu"
+                app:cornerRadius="32dp"
+                android:onClick="onButtonClickChange"/>
+
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Đăng xuất"
                 app:cornerRadius="32dp"
                 android:onClick="onButtonClickChange"/>
         </LinearLayout>
