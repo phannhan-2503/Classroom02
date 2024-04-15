@@ -1,19 +1,30 @@
-package com.example.quanlybantingiaovien.thongtinbaidang;
+package com.example.quanlybantingiaovien.model;
 
 import java.util.Date;
 import java.util.List;
 
 public class thongtinbaigiangModel {
+
+    private int src;
     private String tenGiangVien;
     private Date ngayDangTin;
     private String noiDungTin;
     private List<taptinModel> taptinModel;
 
-    public thongtinbaigiangModel(String tenGiangVien, Date ngayDangTin, String noiDungTin, List<com.example.quanlybantingiaovien.thongtinbaidang.taptinModel> taptinModel) {
+    public thongtinbaigiangModel(int src,String tenGiangVien, Date ngayDangTin, String noiDungTin, List<com.example.quanlybantingiaovien.model.taptinModel> taptinModel) {
+        this.src=src;
         this.tenGiangVien = tenGiangVien;
         this.ngayDangTin = ngayDangTin;
         this.noiDungTin = noiDungTin;
         this.taptinModel = taptinModel;
+    }
+
+    public int getSrc() {
+        return src;
+    }
+
+    public void setSrc(int src) {
+        this.src = src;
     }
 
     public String getTenGiangVien() {
@@ -32,11 +43,11 @@ public class thongtinbaigiangModel {
         this.ngayDangTin = ngayDangTin;
     }
 
-    public List<com.example.quanlybantingiaovien.thongtinbaidang.taptinModel> getTaptinModel() {
+    public List<com.example.quanlybantingiaovien.model.taptinModel> getTaptinModel() {
         return taptinModel;
     }
 
-    public void setTaptinModel(List<com.example.quanlybantingiaovien.thongtinbaidang.taptinModel> taptinModel) {
+    public void setTaptinModel(List<com.example.quanlybantingiaovien.model.taptinModel> taptinModel) {
         this.taptinModel = taptinModel;
     }
 

@@ -1,15 +1,30 @@
 package com.example.quanlybantingiaovien.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlybantingiaovien.R;
+import com.example.quanlybantingiaovien.adapter.nhanxetadapter;
+import com.example.quanlybantingiaovien.database.DataBaseNhanXet;
+import com.example.quanlybantingiaovien.model.nhanxetModel;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +42,12 @@ public class nhanxetFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private View mView;
+    private nhanxetadapter nhanxetadapter;
+    private List<nhanxetModel> list;
+    private EditText ednoidung;
+    private ImageView imageView_send;
+    private RecyclerView recyclerView;
+
 
     public nhanxetFragment() {
         // Required empty public constructor
@@ -71,8 +92,55 @@ public class nhanxetFragment extends Fragment {
                 Navigation.findNavController(view).popBackStack();
             }
         });
+        unitUI();
+        nhanxetadapter=new nhanxetadapter(getContext());
+        list=new ArrayList<>();
+        nhanxetadapter.setData(list);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(nhanxetadapter);
+        nhanxetadapter.setData(list);
+        imageView_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddNhanXet();
+            }
+        });
 
         // Inflate the layout for this fragment
         return mView ;
+    }
+    private void AddNhanXet() {
+        String ndnhanxet=ednoidung.getText().toString().trim();
+        if(TextUtils.isEmpty(ndnhanxet)){
+            return ;
+        }
+        Date date=new Date();
+        try {
+            date = parseDateTime("dd/MM/yyyy HH:mm", getCurrentDateTimeString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        nhanxetModel nhanxet=new nhanxetModel(R.drawable.custom_bogocbanner,"Huynh Phan Quoc Huy",date,ndnhanxet);
+        DataBaseNhanXet.getInstance(getContext()).DAOnhanxet().insertNhanXet(nhanxet);
+        ednoidung.setText("");
+        list=DataBaseNhanXet.getInstance(getContext()).DAOnhanxet().getNhanXet();
+        nhanxetadapter.setData(list);
+
+
+    }
+    public void unitUI(){
+        ednoidung=mView.findViewById(R.id.edtndnhanxet);
+        imageView_send=mView.findViewById(R.id.send_nhanxet);
+        recyclerView=mView.findViewById(R.id.recycler_ndnhanxet);
+    }
+    private Date parseDateTime(String pattern, String dateTimeString) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        return sdf.parse(dateTimeString);
+    }
+
+    private String getCurrentDateTimeString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        return sdf.format(new Date());
     }
 }

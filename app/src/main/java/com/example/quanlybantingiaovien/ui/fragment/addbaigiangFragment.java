@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quanlybantingiaovien.MainActivity;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.addbaigiangadapter;
-import com.example.quanlybantingiaovien.thongtinbaidang.taptinModel;
+import com.example.quanlybantingiaovien.model.taptinModel;
 
 import java.util.ArrayList;
 import java.util.List;

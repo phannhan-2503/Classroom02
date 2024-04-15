@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,10 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.dsbaigiangadapter;
 import com.example.quanlybantingiaovien.databinding.FragmentNewsBinding;
-import com.example.quanlybantingiaovien.thongtinbaidang.taptinModel;
-import com.example.quanlybantingiaovien.thongtinbaidang.thongtinbaigiangModel;
-import com.example.quanlybantingiaovien.ui.fragment.addbaigiangFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.quanlybantingiaovien.model.taptinModel;
+import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,12 +83,12 @@ public class NewsFragment extends Fragment {
         Date date=new Date();
 
         // Tạo đối tượng thongtinbaidangModel và thêm vào danh sách
-        dataList.add(new thongtinbaigiangModel( "Huynh Phan Quoc Huy", date,"Nội dung 1 Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1",files1));
+        dataList.add(new thongtinbaigiangModel(R.drawable.custom_bogocbanner ,"Huynh Phan Quoc Huy", date,"Nội dung 1 Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1",files1));
 
         List<taptinModel> files2 = new ArrayList<>();
         files2.add(new taptinModel(Uri.parse("path_to_file3")));
         files2.add(new taptinModel(Uri.parse("@drawable/custom_title")));
-        dataList.add(new thongtinbaigiangModel( "Huynh Phan Quoc Huy", date,"Nội dung 2",files2));
+        dataList.add(new thongtinbaigiangModel( R.drawable.custom_bogocbanner,"Huynh Phan Quoc Huy", date,"Nội dung 2",files2));
 
         // Thêm các bài đăng khác nếu cần
         // dataList.add(...);

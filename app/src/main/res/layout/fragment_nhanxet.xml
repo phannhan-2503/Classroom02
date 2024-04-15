@@ -41,7 +41,6 @@
             android:src="@android:drawable/ic_menu_send"
             android:id="@+id/send_nhanxet"
             android:layout_alignParentEnd="true"
-
             android:layout_toStartOf="@+id/edtndnhanxet"
             />
     </RelativeLayout>

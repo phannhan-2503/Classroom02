@@ -11,18 +11,18 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.thongtinbaidang.thongtinbaigiangModel;
-import com.example.quanlybantingiaovien.thongtinbaidang.taptinModel;
+import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
+import com.example.quanlybantingiaovien.model.taptinModel;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.YourViewHolder> {
@@ -47,6 +47,7 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
     @Override
     public void onBindViewHolder(@NonNull YourViewHolder holder, int position) {
         thongtinbaigiangModel data = dataList.get(position);
+        holder.imageView.setImageResource(data.getSrc());
         holder.tenGiangVien.setText(data.getTenGiangVien());
         holder.ngayDangTin.setText(data.getNgayDangTin().toString());
         holder.noiDungTin.setText(data.getNoiDungTin());
@@ -73,10 +74,12 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
 
         TextView tenGiangVien, ngayDangTin, noiDungTin,nhanxetlophoc;
         LinearLayout thongtinbaidang;
+        CircleImageView imageView;
         RecyclerView recyclerViewDanhSachTapTin;
 
         public YourViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageView=itemView.findViewById(R.id.profile_image_baigiang);
             tenGiangVien=itemView.findViewById(R.id.tenGiangVien);
             ngayDangTin = itemView.findViewById(R.id.ngayDangTin);
             noiDungTin = itemView.findViewById(R.id.noiDungTin);

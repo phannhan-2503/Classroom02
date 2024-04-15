@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.thongtinbaidang;
+package com.example.quanlybantingiaovien.model;
 
 import android.net.Uri;
 

@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quanlybantingiaovien.MainActivity;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.updatebaigiangadapter;
-import com.example.quanlybantingiaovien.thongtinbaidang.taptinModel;
+import com.example.quanlybantingiaovien.model.taptinModel;
 
 import java.util.ArrayList;
 import java.util.List;

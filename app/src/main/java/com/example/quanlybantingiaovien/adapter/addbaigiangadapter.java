@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.thongtinbaidang.taptinModel;
+import com.example.quanlybantingiaovien.model.taptinModel;
 
 import java.util.List;
 

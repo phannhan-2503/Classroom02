@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "526819218023",
+    "firebase_url": "https://classroom-d0947-default-rtdb.firebaseio.com",
+    "project_id": "classroom-d0947",
+    "storage_bucket": "classroom-d0947.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526819218023:android:5cea65c3427f5042763ac2",
+        "android_client_info": {
+          "package_name": "com.example.classroom02"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-qMAHv1VoLM2GfeaXhN1IqzI45dXznK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526819218023:android:8a77c82a5d9b2de7763ac2",
+        "android_client_info": {
+          "package_name": "com.example.quanlybantingiaovien"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-qMAHv1VoLM2GfeaXhN1IqzI45dXznK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

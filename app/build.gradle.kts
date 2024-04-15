@@ -1,8 +1,13 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
+    signingConfigs {
+        create("my_config") {
+        }
+    }
     namespace = "com.example.quanlybantingiaovien"
     compileSdk = 34
 
@@ -46,5 +51,10 @@ dependencies {
 
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
+
+    annotationProcessor("androidx.room:room-compiler:2.5.0")
     implementation("androidx.room:room-runtime:2.6.1")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+    implementation("com.google.firebase:firebase-analytics")
 }
