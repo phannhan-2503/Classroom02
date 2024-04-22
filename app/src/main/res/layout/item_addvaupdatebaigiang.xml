@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_item_dangbai"
+        android:id="@+id/txt_item_dangbai_fragmentaddvaupdate"
         android:textSize="16dp"
         android:text="huy"
         android:layout_marginTop="5dp"
@@ -22,7 +22,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
         android:layout_marginEnd="10dp"
-        android:layout_toStartOf="@+id/txt_item_dangbai"
+        android:layout_toStartOf="@+id/txt_item_dangbai_fragmentaddvaupdate"
         android:background="@drawable/three_dot"
         android:backgroundTint="#575454"
         android:textSize="15dp" />

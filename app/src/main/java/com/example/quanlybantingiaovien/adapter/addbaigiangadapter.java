@@ -73,7 +73,7 @@ public class addbaigiangadapter extends RecyclerView.Adapter<addbaigiangadapter.
 
         public FileViewHolder(@NonNull View itemView) {
             super(itemView);
-            fileNameTextView = itemView.findViewById(com.example.quanlybantingiaovien.R.id.txt_item_dangbai);
+            fileNameTextView = itemView.findViewById(com.example.quanlybantingiaovien.R.id.txt_item_dangbai_fragmentaddvaupdate);
             txtclickxoa_fragmentchinhsua = itemView.findViewById(R.id.txtxoa_fragmentaddvaupdate);
             txtclickxoa_fragmentchinhsua.setOnClickListener(new View.OnClickListener() {
                 @Override

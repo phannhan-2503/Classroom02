@@ -1,9 +1,10 @@
 package com.example.quanlybantingiaovien.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class thongtinbaigiangModel {
+public class thongtinbaigiangModel implements Serializable {
 
     private int src;
     private String tenGiangVien;
@@ -17,6 +18,9 @@ public class thongtinbaigiangModel {
         this.ngayDangTin = ngayDangTin;
         this.noiDungTin = noiDungTin;
         this.taptinModel = taptinModel;
+    }
+    public thongtinbaigiangModel(){
+
     }
 
     public int getSrc() {

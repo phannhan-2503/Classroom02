@@ -2,15 +2,20 @@ package com.example.quanlybantingiaovien;
 
 import android.os.Bundle;
 
+import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
+import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.quanlybantingiaovien.databinding.ActivityMainBinding;
+
+import java.io.Serializable;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -38,7 +43,17 @@ public class MainActivity extends AppCompatActivity  {
 //        Toolbar toolbar=findViewById(R.id.toolbar);
 //        setSupportActionBar(null);
 
+
     }
+//    public void goToChiTietBaiGiang(thongtinbaigiangModel ttbg){
+//        FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+//        chitietbaigiangFragment chitietbaigiangFragment= new chitietbaigiangFragment();
+//        Bundle bundle=new Bundle();
+//        bundle.putSerializable("key_chitietbaigiang", (Serializable) ttbg);
+//        chitietbaigiangFragment.setArguments(bundle);
+//        fragmentTransaction.replace(R.id.container,new chitietbaigiangFragment());
+//        fragmentTransaction.commit();
+//    }
 
 
 }

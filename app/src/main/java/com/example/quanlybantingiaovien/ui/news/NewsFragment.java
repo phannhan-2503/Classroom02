@@ -14,12 +14,15 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quanlybantingiaovien.MainActivity;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.dsbaigiangadapter;
 import com.example.quanlybantingiaovien.databinding.FragmentNewsBinding;
 import com.example.quanlybantingiaovien.model.taptinModel;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
+import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,11 +35,13 @@ public class NewsFragment extends Fragment {
     private List<thongtinbaigiangModel> dataList;
     private View mView;
     private NewsFragment newsFragment;
+    private MainActivity mainActivity;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentNewsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        mView=root;
         //
         TextView textView = binding.clickdangbai;
         textView.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +58,17 @@ public class NewsFragment extends Fragment {
         // Khởi tạo RecyclerView và adapter
        recyclerView = binding.recyclerviewDanhSachBaiDang;
         dataList = new ArrayList<>();
-        adapter = new dsbaigiangadapter( getContext(),dataList);
+        adapter = new dsbaigiangadapter(getContext(), dataList, new dsbaigiangadapter.IClickItemListener() {
+            @Override
+            public void OnCLickItemBaiGiang(thongtinbaigiangModel ttbg) {
+                chitietbaigiangFragment chitietbaigiangFragment= new chitietbaigiangFragment();
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("key_chitietbaigiang", (Serializable) ttbg);
+                chitietbaigiangFragment.setArguments(bundle);
+//                Navigation.findNavController(mView).navigate(R.id.chitietfragmentbaigiang);
+                Navigation.findNavController(mView).navigate(R.id.chitietfragmentbaigiang, bundle);
+            }
+        });
 
         //Thiết lập layout manager và adapter cho RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

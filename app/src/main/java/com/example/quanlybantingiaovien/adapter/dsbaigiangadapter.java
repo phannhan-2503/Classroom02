@@ -3,6 +3,7 @@ package com.example.quanlybantingiaovien.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
 import com.example.quanlybantingiaovien.model.taptinModel;
+import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
 
+import java.io.Serializable;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,10 +34,20 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
     private List<thongtinbaigiangModel> dataList;
     private Context context;
     private TextView txtXoa_ChinhSua;
+    public  IClickItemListener iClickItemListener;
+    public interface IClickItemListener{
+        void OnCLickItemBaiGiang(thongtinbaigiangModel ttbg);
+    }
 
-    public dsbaigiangadapter(Context context, List<thongtinbaigiangModel> dataList) {
+
+//    public dsbaigiangadapter(Context context, List<thongtinbaigiangModel> dataList) {
+//        this.context = context;
+//        this.dataList = dataList;
+//    }
+    public dsbaigiangadapter(Context context, List<thongtinbaigiangModel> dataList,IClickItemListener listener) {
         this.context = context;
         this.dataList = dataList;
+        this.iClickItemListener=listener;
     }
 
 
@@ -61,6 +75,12 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
         holder.recyclerViewDanhSachTapTin.setLayoutManager(layoutManager);
         holder.recyclerViewDanhSachTapTin.setAdapter(tapTinAdapter);
+        holder.thongtinbaidang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iClickItemListener.OnCLickItemBaiGiang(data);
+            }
+        });
 
 
     }
@@ -86,12 +106,17 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
             recyclerViewDanhSachTapTin = itemView.findViewById(R.id.recyclerview_DanhSachTapTin);
             nhanxetlophoc =itemView.findViewById(R.id.txt_nxLopHoc);
             thongtinbaidang=itemView.findViewById(R.id.thongtinbaidang);
-            thongtinbaidang.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Navigation.findNavController(view).navigate(R.id.chitietfragmentbaigiang);
-                }
-            });
+//            thongtinbaidang.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    thongtinbaigiangModel ttbg=new thongtinbaigiangModel();
+//                    chitietbaigiangFragment chitietbaigiangFragment= new chitietbaigiangFragment();
+//                    Bundle bundle=new Bundle();
+//                    bundle.putSerializable("key_chitietbaigiang", (Serializable) ttbg);
+//                    chitietbaigiangFragment.setArguments(bundle);
+//                    Navigation.findNavController(view).navigate(R.id.chitietfragmentbaigiang);
+//                }
+//            });
             nhanxetlophoc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
