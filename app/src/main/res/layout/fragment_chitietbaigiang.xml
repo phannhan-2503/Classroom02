@@ -60,7 +60,8 @@
         android:layout_height="wrap_content"
         android:text="noi dung"
         android:id="@+id/noidung_chitietbaigiang"
-        android:textSize="16dp"></TextView>
+        android:textSize="16dp"
+        android:paddingStart="10dp"></TextView>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,6 +72,7 @@
         android:layout_height="wrap_content"
         android:text="Nhận xét lớp học"
         android:textSize="16dp"
+        android:paddingStart="10dp"
         />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -84,6 +86,7 @@
         android:text="Thêm nhận xét lớp học"
         android:textColor="#0582E4"
         android:textSize="16dp"
+        android:paddingStart="10dp"
         />
 
 

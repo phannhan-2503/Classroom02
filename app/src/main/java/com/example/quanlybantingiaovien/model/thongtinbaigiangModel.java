@@ -1,18 +1,25 @@
 package com.example.quanlybantingiaovien.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class thongtinbaigiangModel implements Serializable {
+public class thongtinbaigiangModel implements Parcelable {
 
-    private int src;
+    private String src;
     private String tenGiangVien;
     private Date ngayDangTin;
     private String noiDungTin;
     private List<taptinModel> taptinModel;
 
-    public thongtinbaigiangModel(int src,String tenGiangVien, Date ngayDangTin, String noiDungTin, List<com.example.quanlybantingiaovien.model.taptinModel> taptinModel) {
+
+    public thongtinbaigiangModel(String src,String tenGiangVien, Date ngayDangTin, String noiDungTin, List<taptinModel> taptinModel) {
         this.src=src;
         this.tenGiangVien = tenGiangVien;
         this.ngayDangTin = ngayDangTin;
@@ -23,11 +30,41 @@ public class thongtinbaigiangModel implements Serializable {
 
     }
 
-    public int getSrc() {
+    protected thongtinbaigiangModel(Parcel in) {
+        src = in.readString();
+        tenGiangVien = in.readString();
+        noiDungTin = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(src);
+        dest.writeString(tenGiangVien);
+        dest.writeString(noiDungTin);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<thongtinbaigiangModel> CREATOR = new Creator<thongtinbaigiangModel>() {
+        @Override
+        public thongtinbaigiangModel createFromParcel(Parcel in) {
+            return new thongtinbaigiangModel(in);
+        }
+
+        @Override
+        public thongtinbaigiangModel[] newArray(int size) {
+            return new thongtinbaigiangModel[size];
+        }
+    };
+
+    public String getSrc() {
         return src;
     }
 
-    public void setSrc(int src) {
+    public void setSrc(String src) {
         this.src = src;
     }
 

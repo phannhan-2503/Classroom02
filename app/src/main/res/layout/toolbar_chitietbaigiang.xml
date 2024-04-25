@@ -11,6 +11,7 @@
         android:layout_marginStart="10dp"
         android:id="@+id/btnClickBackHome_chitietbaidang"
         ></ImageView>
+
     <TextView
         android:id="@+id/txtxoa_chinhsua_chitietbaidang"
         android:layout_width="wrap_content"

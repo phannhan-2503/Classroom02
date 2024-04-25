@@ -50,7 +50,11 @@
         android:id="@+id/chitietfragmentbaigiang"
         android:name="com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment"
         android:label="detail"
-        tools:layout="@layout/fragment_chitietbaigiang" />
+        tools:layout="@layout/fragment_chitietbaigiang" >
+        <action
+            android:id="@+id/action_chitietfragmentbaigiang_to_updatefragmentbaigiang"
+            app:destination="@id/updatefragmentbaigiang" />
+    </fragment>
     <fragment
         android:id="@+id/nhanxetfragmentbaigiang"
         android:name="com.example.quanlybantingiaovien.ui.fragment.nhanxetFragment"

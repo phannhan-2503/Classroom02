@@ -21,8 +21,11 @@ import com.example.quanlybantingiaovien.databinding.FragmentNewsBinding;
 import com.example.quanlybantingiaovien.model.taptinModel;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
 import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
+import com.example.quanlybantingiaovien.ui.fragment.updatebaigiangFragment;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -63,11 +66,20 @@ public class NewsFragment extends Fragment {
             public void OnCLickItemBaiGiang(thongtinbaigiangModel ttbg) {
                 chitietbaigiangFragment chitietbaigiangFragment= new chitietbaigiangFragment();
                 Bundle bundle=new Bundle();
-                bundle.putSerializable("key_chitietbaigiang", (Serializable) ttbg);
+                bundle.putParcelable("key_chitietbaigiang",  ttbg);
                 chitietbaigiangFragment.setArguments(bundle);
-//                Navigation.findNavController(mView).navigate(R.id.chitietfragmentbaigiang);
                 Navigation.findNavController(mView).navigate(R.id.chitietfragmentbaigiang, bundle);
+
             }
+            @Override
+            public void OnCLickItemChihSua(thongtinbaigiangModel ttbg) {
+                updatebaigiangFragment updatebaigiangfragment= new updatebaigiangFragment();
+                Bundle bundle1=new Bundle();
+                bundle1.putParcelable("key_updatebaigiang",  ttbg);
+                updatebaigiangfragment.setArguments(bundle1);
+                Navigation.findNavController(mView).navigate(R.id.updatefragmentbaigiang, bundle1);
+            }
+
         });
 
         //Thiết lập layout manager và adapter cho RecyclerView
@@ -75,35 +87,31 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
          //Tạo dữ liệu mẫu
-        createSampleData();
-        // Xử lý sự kiện khi nhấn vào "Thông báo tin gì đó cho lớp"
-//        TextView textView = binding.clickdangbai;
-//        textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.add(R.id.container, new addbaidangFragment());
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-//            }
-//        });
+        try {
+            createSampleData();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         return root;
     }
-    private void createSampleData() {
+    private void createSampleData() throws ParseException {
         // Tạo một danh sách các tập tin cho mỗi bài đăng
         List<taptinModel> files1 = new ArrayList<>();
-        files1.add(new taptinModel(Uri.parse("@drawable/custom_title")));
-        files1.add(new taptinModel(Uri.parse("@drawable/custom_title")));
+        files1.add(new taptinModel("@drawable/custom_title"));
+        files1.add(new taptinModel("@drawable/custom_title"));
         Date date=new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM HH:mm");
+        String formattedDate = sdf.format(date);
+        Date dateformat = sdf.parse(formattedDate);
 
         // Tạo đối tượng thongtinbaidangModel và thêm vào danh sách
-        dataList.add(new thongtinbaigiangModel(R.drawable.custom_bogocbanner ,"Huynh Phan Quoc Huy", date,"Nội dung 1 Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1",files1));
+        dataList.add(new thongtinbaigiangModel(String.valueOf(R.drawable.custom_bogocbanner) ,"Huynh Phan Quoc Huy", dateformat,"Nội dung 1 Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1",files1));
 
         List<taptinModel> files2 = new ArrayList<>();
-        files2.add(new taptinModel(Uri.parse("path_to_file3")));
-        files2.add(new taptinModel(Uri.parse("@drawable/custom_title")));
-        dataList.add(new thongtinbaigiangModel( R.drawable.custom_bogocbanner,"Huynh Phan Quoc Huy", date,"Nội dung 2",files2));
+        files2.add(new taptinModel("path_to_file3"));
+        files2.add(new taptinModel("@drawable/custom_title"));
+        dataList.add(new thongtinbaigiangModel(String.valueOf(R.drawable.custom_bogocbanner),"Huynh Phan Quoc Huy", dateformat,"Nội dung 2",files2));
 
         // Thêm các bài đăng khác nếu cần
         // dataList.add(...);

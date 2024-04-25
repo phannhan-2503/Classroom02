@@ -95,7 +95,7 @@ public class addbaigiangadapter extends RecyclerView.Adapter<addbaigiangadapter.
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 // Xử lý khi người dùng chọn "Có"
-                                                int position = getAdapterPosition();
+                                                int position = getBindingAdapterPosition();
                                                 // Xóa item từ danh sách dữ liệu
                                                 fileList.remove(position);
                                                 // Cập nhật giao diện người dùng bằng cách thông báo cho Adapter
@@ -143,8 +143,8 @@ public class addbaigiangadapter extends RecyclerView.Adapter<addbaigiangadapter.
 
     }
     @SuppressLint("Range")
-    private String getFileNameFromUri(Uri uri) {
-        String result = null;
+    private String getFileNameFromUri( String result) {
+        Uri uri=Uri.parse(result);
         if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
             Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
             try {
@@ -168,7 +168,8 @@ public class addbaigiangadapter extends RecyclerView.Adapter<addbaigiangadapter.
     }
 
     // Mở tệp khi người dùng nhấn vào một item trong RecyclerView
-    private void openFile(Uri fileUri) {
+    private void openFile(String file) {
+        Uri fileUri=Uri.parse(file);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(fileUri, "*/*");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Cấp quyền đọc cho ứng dụng

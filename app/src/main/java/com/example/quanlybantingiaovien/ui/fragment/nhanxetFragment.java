@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.nhanxetadapter;
-import com.example.quanlybantingiaovien.database.DataBaseNhanXet;
 import com.example.quanlybantingiaovien.model.nhanxetModel;
 
 import java.text.ParseException;
@@ -121,11 +120,12 @@ public class nhanxetFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        nhanxetModel nhanxet=new nhanxetModel(R.drawable.custom_bogocbanner,"Huynh Phan Quoc Huy",date,ndnhanxet);
-        DataBaseNhanXet.getInstance(getContext()).DAOnhanxet().insertNhanXet(nhanxet);
+
         ednoidung.setText("");
-        list=DataBaseNhanXet.getInstance(getContext()).DAOnhanxet().getNhanXet();
+        nhanxetModel model=new nhanxetModel(String.valueOf(R.drawable.custom_bogocbanner),"huy",date,ndnhanxet);
+        list.add(model);
         nhanxetadapter.setData(list);
+        nhanxetadapter.notifyDataSetChanged();
 
 
     }

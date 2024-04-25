@@ -33,10 +33,11 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
 
     private List<thongtinbaigiangModel> dataList;
     private Context context;
-    private TextView txtXoa_ChinhSua;
+
     public  IClickItemListener iClickItemListener;
     public interface IClickItemListener{
         void OnCLickItemBaiGiang(thongtinbaigiangModel ttbg);
+        void OnCLickItemChihSua(thongtinbaigiangModel ttbg);
     }
 
 
@@ -61,10 +62,59 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
     @Override
     public void onBindViewHolder(@NonNull YourViewHolder holder, int position) {
         thongtinbaigiangModel data = dataList.get(position);
-        holder.imageView.setImageResource(data.getSrc());
+        holder.imageView.setImageResource(Integer.parseInt(data.getSrc()));
         holder.tenGiangVien.setText(data.getTenGiangVien());
         holder.ngayDangTin.setText(data.getNgayDangTin().toString());
         holder.noiDungTin.setText(data.getNoiDungTin());
+        holder.txtXoa_ChinhSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PopupMenu popupMenu = new PopupMenu(context, view);
+                popupMenu.getMenuInflater().inflate(R.menu.xoa_chinhsua, popupMenu.getMenu());
+
+                // Xử lý sự kiện khi một mục được chọn
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if(menuItem.getItemId()==R.id.itemXoa){
+                            showConfirmationDialog(
+                                    context,
+                                    "Xác nhận",
+                                    "Bạn có muốn tiếp tục không?",
+                                    "Có",
+                                    "Không",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Xử lý khi người dùng chọn "Có"
+                                            int position = holder.getBindingAdapterPosition();
+                                            // Xóa item từ danh sách dữ liệu
+                                            dataList.remove(position);
+                                            // Cập nhật giao diện người dùng bằng cách thông báo cho Adapter
+                                            notifyItemRemoved(position);
+                                        }
+                                    },
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Xử lý khi người dùng chọn "Không"
+                                        }
+                                    }
+                            );
+
+
+                        }else if(menuItem.getItemId()==R.id.itemChinhSua){
+                            iClickItemListener.OnCLickItemChihSua(data);
+//                                Navigation.findNavController(view).navigate(R.id.updatefragmentbaigiang);
+                        }
+                        return false;
+                    }
+                });
+                // Hiển thị PopupMenu
+                popupMenu.show();
+            }
+        });
         // Gán danh sách tập tin từ thongtinbaidangModel vào file
         List<taptinModel> file = data.getTaptinModel();
 
@@ -84,6 +134,23 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
 
 
     }
+    public void showConfirmationDialog(Context context, String title, String message,
+                                       String positiveButtonLabel, String negativeButtonLabel,
+                                       final DialogInterface.OnClickListener positiveClickListener,
+                                       final DialogInterface.OnClickListener negativeClickListener) {
+        if(context!=null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(title);
+            builder.setMessage(message);
+            builder.setPositiveButton(positiveButtonLabel, positiveClickListener);
+            builder.setNegativeButton(negativeButtonLabel, negativeClickListener);
+            builder.setCancelable(false); // Ngăn chặn việc hủy bỏ hộp thoại bằng cách nhấn nút back
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
+    }
 
     @Override
     public int getItemCount() {
@@ -91,7 +158,7 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
     }
 
     public class YourViewHolder extends RecyclerView.ViewHolder {
-
+         TextView txtXoa_ChinhSua;
         TextView tenGiangVien, ngayDangTin, noiDungTin,nhanxetlophoc;
         LinearLayout thongtinbaidang;
         CircleImageView imageView;
@@ -106,93 +173,19 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
             recyclerViewDanhSachTapTin = itemView.findViewById(R.id.recyclerview_DanhSachTapTin);
             nhanxetlophoc =itemView.findViewById(R.id.txt_nxLopHoc);
             thongtinbaidang=itemView.findViewById(R.id.thongtinbaidang);
-//            thongtinbaidang.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    thongtinbaigiangModel ttbg=new thongtinbaigiangModel();
-//                    chitietbaigiangFragment chitietbaigiangFragment= new chitietbaigiangFragment();
-//                    Bundle bundle=new Bundle();
-//                    bundle.putSerializable("key_chitietbaigiang", (Serializable) ttbg);
-//                    chitietbaigiangFragment.setArguments(bundle);
-//                    Navigation.findNavController(view).navigate(R.id.chitietfragmentbaigiang);
-//                }
-//            });
+            txtXoa_ChinhSua=itemView.findViewById(R.id.txtxoa_chinhsua);
             nhanxetlophoc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Navigation.findNavController(view).navigate(R.id.nhanxetfragmentbaigiang);
                 }
             });
-            txtXoa_ChinhSua= itemView.findViewById(R.id.txtxoa_chinhsua);
-            txtXoa_ChinhSua.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    PopupMenu popupMenu = new PopupMenu(itemView.getContext(), view);
-                    popupMenu.getMenuInflater().inflate(R.menu.xoa_chinhsua, popupMenu.getMenu());
-
-                    // Xử lý sự kiện khi một mục được chọn
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            if(menuItem.getItemId()==R.id.itemXoa){
-                                showConfirmationDialog(
-                                        context,
-                                        "Xác nhận",
-                                        "Bạn có muốn tiếp tục không?",
-                                        "Có",
-                                        "Không",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // Xử lý khi người dùng chọn "Có"
-                                                int position = getAdapterPosition();
-                                                // Xóa item từ danh sách dữ liệu
-                                                dataList.remove(position);
-                                                // Cập nhật giao diện người dùng bằng cách thông báo cho Adapter
-                                                notifyItemRemoved(position);
-                                            }
-                                        },
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // Xử lý khi người dùng chọn "Không"
-                                            }
-                                        }
-                                );
-
-
-                            }else if(menuItem.getItemId()==R.id.itemChinhSua){
-                                Navigation.findNavController(view).navigate(R.id.updatefragmentbaigiang);
-                            }
-                            return false;
-                        }
-                    });
-                    // Hiển thị PopupMenu
-                    popupMenu.show();
-                }
-            });
 
 
 
         }
-            public void showConfirmationDialog(Context context, String title, String message,
-                                               String positiveButtonLabel, String negativeButtonLabel,
-                                               final DialogInterface.OnClickListener positiveClickListener,
-                                               final DialogInterface.OnClickListener negativeClickListener) {
-            if(context!=null){
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(title);
-                builder.setMessage(message);
-                builder.setPositiveButton(positiveButtonLabel, positiveClickListener);
-                builder.setNegativeButton(negativeButtonLabel, negativeClickListener);
-                builder.setCancelable(false); // Ngăn chặn việc hủy bỏ hộp thoại bằng cách nhấn nút back
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-
-            }
         }
 
     }

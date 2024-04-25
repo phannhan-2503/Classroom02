@@ -43,10 +43,10 @@ public class nhanxetadapter extends RecyclerView.Adapter<nhanxetadapter.YourView
 //        if(nhanxet==null){
 //            return;
 //        }
-        holder.imageView.setImageResource(nhanxet.getSrc());
+        holder.imageView.setImageResource(Integer.parseInt(nhanxet.getSrc()));
         holder.txtTenGiangVien.setText(nhanxet.getTenGiangVien());
-        holder.txtNgayNhanXet.setText(nhanxet.getNgayNhanXet().toString());
-        holder.txtNoiDungNhanXet.setText(nhanxet.getNoiDungNhanXet());
+        holder.txtNgayNhanXet.setText(nhanxet.getNgayDangTin().toString());
+        holder.txtNoiDungNhanXet.setText(nhanxet.getNoiDungTin());
     }
 
     @Override
