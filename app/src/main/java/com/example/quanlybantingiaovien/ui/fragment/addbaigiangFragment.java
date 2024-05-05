@@ -1,25 +1,31 @@
 package com.example.quanlybantingiaovien.ui.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -31,9 +37,26 @@ import com.example.quanlybantingiaovien.MainActivity;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.addbaigiangadapter;
 import com.example.quanlybantingiaovien.model.taptinModel;
+import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +75,8 @@ public class addbaigiangFragment extends Fragment {
     private List<taptinModel> selectedFiles = new ArrayList<>();
     private RecyclerView recyclerView;
     private addbaigiangadapter addbaidangadapter;
+    private Button btnAddBangTin;
+    private EditText ed_addndthongbao;
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -124,7 +149,125 @@ public class addbaigiangFragment extends Fragment {
                 Navigation.findNavController(view).popBackStack();
             }
         });
+        btnAddBangTin=mView.findViewById(R.id.btnAddBangTin);
+        btnAddBangTin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ed_addndthongbao=mView.findViewById(R.id.ed_addndthongbao);
+                String content=ed_addndthongbao.getText().toString();
+                String name="Huy";
+                Date Date=new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm");
+                String date = sdf.format(Date);
+                String imageUrl="imageUrl";
 
+                // Tham chiếu đến nút "BangTin" trong Firebase
+                DatabaseReference bangTinRef = FirebaseDatabase.getInstance().getReference("BangTin").child("1");
+                // Tạo một ID ngẫu nhiên cho bài đăng mới
+
+                // Tạo một đối tượng dữ liệu mới
+                Map<String, Object> bangTinData = new HashMap<>();
+                bangTinData.put("content",content );
+                bangTinData.put("date", date);
+                bangTinData.put("imageUrl",  imageUrl);
+                bangTinData.put("name", name);
+                String newPostId = bangTinRef.push().getKey();
+
+
+                // Thêm các tập tin vào dưới dạng đối tượng con với key ngẫu nhiên
+                Map<String, Object> fileData = new HashMap<>();
+
+                // Khởi tạo CountDownLatch với số lượng tập tin cần tải lên
+                CountDownLatch latch = new CountDownLatch(selectedFiles.size());
+
+                // Kiểm tra nếu danh sách các file không rỗng
+                if (!selectedFiles.isEmpty()) {
+                    for (taptinModel model : selectedFiles) {
+                        String fileKey = bangTinRef.push().getKey();
+                        String fileUrl = model.getUri();
+
+                        // Khởi tạo FirebaseStorage và tham chiếu đến thư mục bạn muốn lưu trữ tập tin
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReference().child("Bangtin");
+
+                        // Tham chiếu đến tập tin bạn muốn tải lên
+                        StorageReference fileRef = storageRef.child(getFileNameFromUri(fileUrl));
+
+                        // Tải tập tin lên
+                        UploadTask uploadTask = fileRef.putFile(Uri.parse(fileUrl));
+
+                        // Thêm lắng nghe để xử lý kết quả
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // Tải tập tin lên thành công, lấy URL của tập tin và đặt vào map
+                                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        String fileUrlStorage = uri.toString();
+                                        fileData.put(fileKey, fileUrlStorage);
+                                        // Giảm giá trị của latch khi một tập tin đã được tải lên thành công
+                                        latch.countDown();
+                                        // Kiểm tra nếu tất cả các tập tin đã được tải lên thành công
+                                        if (latch.getCount() == 0) {
+                                            // Đặt fileData vào trong bangTinData
+                                            bangTinData.put("file", fileData);
+                                            // Đặt dữ liệu vào Firebase với key ngẫu nhiên
+                                            bangTinRef.child(newPostId).setValue(bangTinData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            // Nếu thành công, hiển thị thông báo
+                                                            Toast.makeText(getContext(), "Đăng bài thành công!", Toast.LENGTH_SHORT).show();
+                                                            Navigation.findNavController(view).popBackStack();
+                                                            // Hoặc có thể thực hiện các hành động khác sau khi đăng bài thành công
+                                                            // Ví dụ: chuyển đến màn hình khác, làm mới giao diện, vv.
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            // Nếu thất bại, hiển thị thông báo lỗi
+                                                            Toast.makeText(getContext(), "Đăng bài thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                            // Hoặc có thể xử lý lỗi theo ý của bạn
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Xử lý lỗi khi tải tập tin lên thất bại
+                                Toast.makeText(getContext(), "Lỗi khi tải tập tin lên: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                // Giảm giá trị của latch khi một tập tin gặp lỗi
+                                latch.countDown();
+                            }
+                        });
+                    }
+                } else {
+                    // Nếu không có tập tin được chọn, chỉ đăng bài với nội dung và thông tin người đăng
+                    bangTinRef.child(newPostId).setValue(bangTinData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Nếu thành công, hiển thị thông báo
+                                    Toast.makeText(getContext(), "Đăng bài thành công!", Toast.LENGTH_SHORT).show();
+                                    Navigation.findNavController(view).popBackStack();
+                                    // Hoặc có thể thực hiện các hành động khác sau khi đăng bài thành công
+                                    // Ví dụ: chuyển đến màn hình khác, làm mới giao diện, vv.
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Nếu thất bại, hiển thị thông báo lỗi
+                                    Toast.makeText(getContext(), "Đăng bài thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    // Hoặc có thể xử lý lỗi theo ý của bạn
+                                }
+                            });
+                }
+            }
+        });
 
         return mView;
     }
@@ -142,13 +285,34 @@ public class addbaigiangFragment extends Fragment {
     }
 
     private void openFileChooser() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("*/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         mActivityResultLauncher.launch(Intent.createChooser(intent, "Chọn tập tin"));
-
-
     }
-
+    @SuppressLint("Range")
+    private String getFileNameFromUri( String result) {
+        Uri uri=Uri.parse(result);
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
+    }
 
 }

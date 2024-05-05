@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlybantingiaovien.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,12 +41,11 @@ public class nhanxetadapter extends RecyclerView.Adapter<nhanxetadapter.YourView
     @Override
     public void onBindViewHolder(@NonNull YourViewHolder holder, int position) {
         nhanxetModel nhanxet=list.get(position);
-//        if(nhanxet==null){
-//            return;
-//        }
         holder.imageView.setImageResource(Integer.parseInt(nhanxet.getSrc()));
         holder.txtTenGiangVien.setText(nhanxet.getTenGiangVien());
-        holder.txtNgayNhanXet.setText(nhanxet.getNgayDangTin().toString());
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm");
+//        String strDate = sdf.format(nhanxet.getNgayDangTin());
+        holder.txtNgayNhanXet.setText(nhanxet.getNgayDangTin());
         holder.txtNoiDungNhanXet.setText(nhanxet.getNoiDungTin());
     }
 

@@ -1,6 +1,5 @@
 package com.example.quanlybantingiaovien.adapter;
 
-// FileAdapter.java
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -21,12 +20,12 @@ import com.example.quanlybantingiaovien.model.taptinModel;
 
 import java.util.List;
 
-public class taptinbaigiangadapter extends RecyclerView.Adapter<taptinbaigiangadapter.FileViewHolder> {
-
+public class chitietbaigiangadapter extends RecyclerView.Adapter<chitietbaigiangadapter.FileViewHolder> {
     private Context context;
     private List<taptinModel> fileList;
 
-    public taptinbaigiangadapter(Context context, List<taptinModel> fileList) {
+
+    public chitietbaigiangadapter(Context context, List<taptinModel> fileList) {
         this.context = context;
         this.fileList = fileList;
     }
@@ -35,17 +34,16 @@ public class taptinbaigiangadapter extends RecyclerView.Adapter<taptinbaigiangad
     @Override
     public FileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_item_baigiang, parent, false);
-        return new FileViewHolder(view);
+        return new chitietbaigiangadapter.FileViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FileViewHolder holder, int position) {
         taptinModel fileUri = fileList.get(position);
         holder.fileNameTextView.setText(getFileNameFromUri(fileUri.getUri()));
-        // Sự kiện click vào một item trong RecyclerView
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.fileNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 openFile(fileUri.getUri());
             }
         });
@@ -62,6 +60,7 @@ public class taptinbaigiangadapter extends RecyclerView.Adapter<taptinbaigiangad
         public FileViewHolder(@NonNull View itemView) {
             super(itemView);
             fileNameTextView = itemView.findViewById(R.id.txt_item_dangbai);
+
         }
     }
     @SuppressLint("Range")
@@ -107,6 +106,4 @@ public class taptinbaigiangadapter extends RecyclerView.Adapter<taptinbaigiangad
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Cấp quyền đọc cho ứng dụng
         context.startActivity(intent);
     }
-
-
 }

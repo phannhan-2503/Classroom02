@@ -8,7 +8,7 @@ import java.util.List;
 
 public class nhanxetModel extends thongtinbaigiangModel {
 
-    public nhanxetModel(String src, String tenGiangVien, Date ngayNhanXet, String noiDungNhanxet) {
+    public nhanxetModel(String src, String tenGiangVien, String ngayNhanXet, String noiDungNhanxet) {
         super(src, tenGiangVien, ngayNhanXet, noiDungNhanxet, null);
     }
 

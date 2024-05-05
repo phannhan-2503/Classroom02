@@ -135,16 +135,19 @@ public class updatebaigiangadapter extends RecyclerView.Adapter<updatebaigiangad
                 dialog.show();
             }
         }
-
-
-
     }
     @SuppressLint("Range")
-    private String getFileNameFromUri( String result) {
-        Uri uri=Uri.parse(result);
+    private String getFileNameFromUri(String uriString) {
+        if (uriString == null) {
+            return null;
+        }
+
+        Uri uri = Uri.parse(uriString);
         if (uri == null) {
             return null;
         }
+
+        String result = null;
         if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
             Cursor cursor = null;
             try {
@@ -167,6 +170,7 @@ public class updatebaigiangadapter extends RecyclerView.Adapter<updatebaigiangad
         }
         return result;
     }
+
 
 
     // Mở tệp khi người dùng nhấn vào một item trong RecyclerView

@@ -1,6 +1,5 @@
 package com.example.quanlybantingiaovien.ui.news;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.quanlybantingiaovien.MainActivity;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.dsbaigiangadapter;
@@ -22,13 +24,20 @@ import com.example.quanlybantingiaovien.model.taptinModel;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
 import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
 import com.example.quanlybantingiaovien.ui.fragment.updatebaigiangFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
-import java.text.ParseException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewsFragment extends Fragment {
 
@@ -50,9 +59,6 @@ public class NewsFragment extends Fragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                BottomNavigationView bottomNavigationView=mView.findViewById(R.id.nav_view);
-//                bottomNavigationView.setVisibility(View.GONE);
-//                Navigation.findNavController(view).navigate(R.id.addfragmentbaigiang);
                 Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_addfragment);
 
             }
@@ -87,36 +93,78 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
          //Tạo dữ liệu mẫu
+
         try {
             createSampleData();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
+
         return root;
     }
-    private void createSampleData() throws ParseException {
-        // Tạo một danh sách các tập tin cho mỗi bài đăng
-        List<taptinModel> files1 = new ArrayList<>();
-        files1.add(new taptinModel("@drawable/custom_title"));
-        files1.add(new taptinModel("@drawable/custom_title"));
-        Date date=new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM HH:mm");
-        String formattedDate = sdf.format(date);
-        Date dateformat = sdf.parse(formattedDate);
+    private void createSampleData() throws Exception   {
 
-        // Tạo đối tượng thongtinbaidangModel và thêm vào danh sách
-        dataList.add(new thongtinbaigiangModel(String.valueOf(R.drawable.custom_bogocbanner) ,"Huynh Phan Quoc Huy", dateformat,"Nội dung 1 Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1Nội dung 1",files1));
+        Date dateformat = new Date();
+        // Khởi tạo Firebase Database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("BangTin");
 
-        List<taptinModel> files2 = new ArrayList<>();
-        files2.add(new taptinModel("path_to_file3"));
-        files2.add(new taptinModel("@drawable/custom_title"));
-        dataList.add(new thongtinbaigiangModel(String.valueOf(R.drawable.custom_bogocbanner),"Huynh Phan Quoc Huy", dateformat,"Nội dung 2",files2));
+        // Lắng nghe sự kiện thay đổi dữ liệu trên Firebase
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Xóa dữ liệu cũ trước khi cập nhật mới
+                dataList.clear();
+                // Duyệt qua các dữ liệu trên Firebase và thêm vào danh sách dataList
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key = snapshot.getKey();
+                    //Kiểm tra mã môn thuộc môn học nào
+                    if(key.equals("1")){
+                        for (DataSnapshot snapshotvalue : snapshot.getChildren()) {
 
-        // Thêm các bài đăng khác nếu cần
-        // dataList.add(...);
+                            // Đọc dữ liệu từ snapshot
+                            String src = snapshotvalue.child("imageUrl").getValue(String.class);
+                            String tenGiangVien = snapshotvalue.child("name").getValue(String.class);
+                            String noiDungTin = snapshotvalue.child("content").getValue(String.class);
+                            // Đọc ngày từ Firebase (đây có thể là string hoặc timestamp, phụ thuộc vào cách bạn lưu trữ)
+                            // Ví dụ nếu là timestamp
+                            String ngayDangTin = snapshotvalue.child("date").getValue(String.class);
+                            // Tạo danh sách các tập tin
+                            List<taptinModel> files = new ArrayList<>();
+                            for (DataSnapshot fileSnapshot : snapshotvalue.child("file").getChildren()) {
+                                String fileSrc = fileSnapshot.getValue(String.class);
+                                // Thêm các thuộc tính khác của tập tin nếu có
+                                files.add(new taptinModel(fileSrc));
+                            }
+                            CircleImageView profile_image=mView.findViewById(R.id.profile_image);
+                            // Sử dụng Glide để tải và hiển thị hình ảnh từ URL
+                            RequestOptions requestOptions = new RequestOptions()
+                                    .placeholder(R.drawable.custom_bogocbanner) // Hình ảnh tạm thời nếu không tải được
+                                    .error(R.drawable.custom_bogocbanner) // Hình ảnh mặc định khi xảy ra lỗi
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL); // Cache hình ảnh
+                            Glide.with(getContext())
+                                    .load(src) // URL của hình ảnh
+                                    .apply(requestOptions) // Áp dụng các tùy chọn của RequestOptions
+                                    .into(profile_image);
+                            // Tạo đối tượng thongtinbaigiangModel
+                            thongtinbaigiangModel item = new thongtinbaigiangModel(src, tenGiangVien, ngayDangTin, noiDungTin, files);
+                            item.setKey(snapshotvalue.getKey());
+                            dataList.add(item);
+                        }
+                        }
 
-        // Cập nhật dữ liệu trong adapter
+                }
+
+                // Cập nhật RecyclerView
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý trường hợp lỗi khi đọc dữ liệu từ Firebase
+            }
+        });
         adapter.notifyDataSetChanged();
     }
 

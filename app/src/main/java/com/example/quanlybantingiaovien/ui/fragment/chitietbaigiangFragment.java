@@ -1,5 +1,6 @@
 package com.example.quanlybantingiaovien.ui.fragment;
 
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,17 +13,30 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.quanlybantingiaovien.R;
+import com.example.quanlybantingiaovien.adapter.chitietbaigiangadapter;
+import com.example.quanlybantingiaovien.adapter.dsbaigiangadapter;
 import com.example.quanlybantingiaovien.adapter.taptinbaigiangadapter;
+import com.example.quanlybantingiaovien.adapter.updatebaigiangadapter;
 import com.example.quanlybantingiaovien.model.taptinModel;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -35,14 +49,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class chitietbaigiangFragment extends Fragment {
 
 
-    private String mParam1;
-    private String mParam2;
     private View mView;
     private TextView tenGiangVien, ngayDangTin, noiDungTin;
     private LinearLayout thongtinbaidang;
     private CircleImageView imageView_chitietbaigiang;
     private RecyclerView recyclerViewDanhSachTapTin;
     private TextView txtXoa_ChinhSua;
+    private chitietbaigiangadapter chitietbaigiangadapter;
 
     public chitietbaigiangFragment() {
         // Required empty public constructor
@@ -53,6 +66,7 @@ public class chitietbaigiangFragment extends Fragment {
         chitietbaigiangFragment fragment = new chitietbaigiangFragment();
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,19 +86,21 @@ public class chitietbaigiangFragment extends Fragment {
         noiDungTin= mView.findViewById(R.id.noidung_chitietbaigiang);
         recyclerViewDanhSachTapTin = mView.findViewById(R.id.recycler_filectbaigiang);
 
-        ImageView imageView =mView.findViewById(R.id.btnClickBackHome_chitietbaidang);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Quay lại màn hình ban đầu
-                Navigation.findNavController(view).popBackStack();
-            }
-        });
         Bundle bundle=getArguments();
         thongtinbaigiangModel ttbgModel= (thongtinbaigiangModel) bundle.getParcelable("key_chitietbaigiang");
-        imageView_chitietbaigiang.setImageResource(Integer.parseInt(ttbgModel.getSrc()));
+
+        // Sử dụng Glide để tải và hiển thị hình ảnh từ URL
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.custom_bogocbanner) // Hình ảnh tạm thời nếu không tải được
+                .error(R.drawable.custom_bogocbanner) // Hình ảnh mặc định khi xảy ra lỗi
+                .diskCacheStrategy(DiskCacheStrategy.ALL); // Cache hình ảnh
+        Glide.with(getContext())
+                .load(ttbgModel.getSrc()) // URL của hình ảnh
+                .apply(requestOptions) // Áp dụng các tùy chọn của RequestOptions
+                .into(imageView_chitietbaigiang);
+
         tenGiangVien.setText(ttbgModel.getTenGiangVien());
-        ngayDangTin.setText( ttbgModel.getNgayDangTin().toString());
+        ngayDangTin.setText(ttbgModel.getNgayDangTin() );
         noiDungTin.setText(ttbgModel.getNoiDungTin());
 
         List<taptinModel> files = ttbgModel.getTaptinModel();
@@ -96,6 +112,20 @@ public class chitietbaigiangFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerViewDanhSachTapTin.setLayoutManager(layoutManager);
         recyclerViewDanhSachTapTin.setAdapter(tapTinAdapter);
+
+        recyclerViewDanhSachTapTin.setLayoutManager(new LinearLayoutManager(getContext()));
+        chitietbaigiangadapter = new chitietbaigiangadapter(getContext(),files);
+        recyclerViewDanhSachTapTin.setAdapter(chitietbaigiangadapter);
+
+        ImageView imageView =mView.findViewById(R.id.btnClickBackHome_chitietbaidang);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Quay lại màn hình ban đầu
+                Navigation.findNavController(view).popBackStack();
+            }
+        });
+
         txtXoa_ChinhSua= mView.findViewById(R.id.txtxoa_chinhsua_chitietbaidang);
         txtXoa_ChinhSua.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +148,9 @@ public class chitietbaigiangFragment extends Fragment {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Navigation.findNavController(view).popBackStack();
+                                            deleteItemFromFirebase(ttbgModel.getKey());
+                                            Navigation.findNavController(view).navigate(R.id.navigation_home, bundle);
+
                                         }
                                     },
                                     new DialogInterface.OnClickListener() {
@@ -131,7 +163,9 @@ public class chitietbaigiangFragment extends Fragment {
 
 
                         }else if(menuItem.getItemId()==R.id.itemChinhSua){
-                            Navigation.findNavController(view).navigate(R.id.updatefragmentbaigiang);
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("key_updatebaigiang", ttbgModel);
+                            Navigation.findNavController(view).navigate(R.id.updatefragmentbaigiang, bundle);
                         }
                         return false;
                     }
@@ -161,4 +195,21 @@ public class chitietbaigiangFragment extends Fragment {
         }
 
     }
+    private void deleteItemFromFirebase(String key) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("BangTin").child("1").child(key);
+        databaseReference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // Xóa thành công
+                Toast.makeText(getContext(), "Xóa thành công!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Xóa thất bại
+                Toast.makeText(getContext(), "Xóa thất bại!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

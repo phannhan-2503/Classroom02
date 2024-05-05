@@ -5,21 +5,24 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 public class thongtinbaigiangModel implements Parcelable {
-
+    @Exclude
+    private String key;
     private String src;
     private String tenGiangVien;
-    private Date ngayDangTin;
+    private String ngayDangTin;
     private String noiDungTin;
     private List<taptinModel> taptinModel;
 
 
-    public thongtinbaigiangModel(String src,String tenGiangVien, Date ngayDangTin, String noiDungTin, List<taptinModel> taptinModel) {
+    public thongtinbaigiangModel(String src,String tenGiangVien, String ngayDangTin, String noiDungTin, List<taptinModel> taptinModel) {
         this.src=src;
         this.tenGiangVien = tenGiangVien;
         this.ngayDangTin = ngayDangTin;
@@ -34,6 +37,13 @@ public class thongtinbaigiangModel implements Parcelable {
         src = in.readString();
         tenGiangVien = in.readString();
         noiDungTin = in.readString();
+    }
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     @Override
@@ -76,11 +86,11 @@ public class thongtinbaigiangModel implements Parcelable {
         this.tenGiangVien = tenGiangVien;
     }
 
-    public Date getNgayDangTin() {
+    public String getNgayDangTin() {
         return ngayDangTin;
     }
 
-    public void setNgayDangTin(Date ngayDangTin) {
+    public void setNgayDangTin(String ngayDangTin) {
         this.ngayDangTin = ngayDangTin;
     }
 

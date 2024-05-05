@@ -1,9 +1,17 @@
 package com.example.quanlybantingiaovien.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
@@ -18,12 +28,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
 import com.example.quanlybantingiaovien.model.taptinModel;
 import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,10 +59,10 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
     }
 
 
-//    public dsbaigiangadapter(Context context, List<thongtinbaigiangModel> dataList) {
-//        this.context = context;
-//        this.dataList = dataList;
-//    }
+    public dsbaigiangadapter(Context context, List<thongtinbaigiangModel> dataList) {
+        this.context = context;
+        this.dataList = dataList;
+    }
     public dsbaigiangadapter(Context context, List<thongtinbaigiangModel> dataList,IClickItemListener listener) {
         this.context = context;
         this.dataList = dataList;
@@ -62,14 +80,21 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
     @Override
     public void onBindViewHolder(@NonNull YourViewHolder holder, int position) {
         thongtinbaigiangModel data = dataList.get(position);
-        holder.imageView.setImageResource(Integer.parseInt(data.getSrc()));
+        // Sử dụng Glide để tải và hiển thị hình ảnh từ URL
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.custom_bogocbanner) // Hình ảnh tạm thời nếu không tải được
+                .error(R.drawable.custom_bogocbanner) // Hình ảnh mặc định khi xảy ra lỗi
+                .diskCacheStrategy(DiskCacheStrategy.ALL); // Cache hình ảnh
+        Glide.with(context)
+                .load(data.getSrc()) // URL của hình ảnh
+                .apply(requestOptions) // Áp dụng các tùy chọn của RequestOptions
+                .into(holder.imageView);
         holder.tenGiangVien.setText(data.getTenGiangVien());
-        holder.ngayDangTin.setText(data.getNgayDangTin().toString());
+        holder.ngayDangTin.setText(data.getNgayDangTin());
         holder.noiDungTin.setText(data.getNoiDungTin());
         holder.txtXoa_ChinhSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 PopupMenu popupMenu = new PopupMenu(context, view);
                 popupMenu.getMenuInflater().inflate(R.menu.xoa_chinhsua, popupMenu.getMenu());
 
@@ -91,6 +116,8 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
                                             int position = holder.getBindingAdapterPosition();
                                             // Xóa item từ danh sách dữ liệu
                                             dataList.remove(position);
+                                            deleteItemFromFirebase(data.getKey());
+
                                             // Cập nhật giao diện người dùng bằng cách thông báo cho Adapter
                                             notifyItemRemoved(position);
                                         }
@@ -133,7 +160,9 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
         });
 
 
+
     }
+
     public void showConfirmationDialog(Context context, String title, String message,
                                        String positiveButtonLabel, String negativeButtonLabel,
                                        final DialogInterface.OnClickListener positiveClickListener,
@@ -152,14 +181,15 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
 
     }
 
+
     @Override
     public int getItemCount() {
         return dataList.size();
     }
 
     public class YourViewHolder extends RecyclerView.ViewHolder {
-         TextView txtXoa_ChinhSua;
-        TextView tenGiangVien, ngayDangTin, noiDungTin,nhanxetlophoc;
+        TextView txtXoa_ChinhSua;
+        TextView tenGiangVien, ngayDangTin, noiDungTin,nhanxetlophoc,fileNameTextView;
         LinearLayout thongtinbaidang;
         CircleImageView imageView;
         RecyclerView recyclerViewDanhSachTapTin;
@@ -174,6 +204,7 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
             nhanxetlophoc =itemView.findViewById(R.id.txt_nxLopHoc);
             thongtinbaidang=itemView.findViewById(R.id.thongtinbaidang);
             txtXoa_ChinhSua=itemView.findViewById(R.id.txtxoa_chinhsua);
+            fileNameTextView = itemView.findViewById(R.id.txt_item_dangbai);
             nhanxetlophoc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -181,12 +212,25 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
                 }
             });
 
-
-
-
         }
-
-        }
-
     }
+    // Phương thức để xóa một item từ Firebase Realtime Database
+    private void deleteItemFromFirebase(String key) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("BangTin").child("1").child(key);
+        databaseReference.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // Xóa thành công
+                Toast.makeText(context, "Xóa thành công!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Xóa thất bại
+                Toast.makeText(context, "Xóa thất bại!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+}
 

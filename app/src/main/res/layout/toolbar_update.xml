@@ -12,6 +12,7 @@
         android:id="@+id/btnClickBackHome_Update"
         ></ImageView>
     <Button
+        android:id="@+id/btnLuuNoiDungChinhSua"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"

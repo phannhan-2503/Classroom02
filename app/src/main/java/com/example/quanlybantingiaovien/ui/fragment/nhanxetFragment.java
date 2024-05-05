@@ -115,14 +115,9 @@ public class nhanxetFragment extends Fragment {
             return ;
         }
         Date date=new Date();
-        try {
-            date = parseDateTime("dd/MM/yyyy HH:mm", getCurrentDateTimeString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
         ednoidung.setText("");
-        nhanxetModel model=new nhanxetModel(String.valueOf(R.drawable.custom_bogocbanner),"huy",date,ndnhanxet);
+        String a="ád";
+        nhanxetModel model=new nhanxetModel(String.valueOf(R.drawable.custom_bogocbanner),"huy",a,ndnhanxet);
         list.add(model);
         nhanxetadapter.setData(list);
         nhanxetadapter.notifyDataSetChanged();
