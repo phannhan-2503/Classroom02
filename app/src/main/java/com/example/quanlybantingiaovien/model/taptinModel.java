@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 
 public class taptinModel implements Parcelable {
-    public String tenLink;
     public String uri;
 
     public taptinModel(String uri) {
@@ -17,19 +16,6 @@ public class taptinModel implements Parcelable {
     }
     public taptinModel() {
 
-    }
-
-    public taptinModel(String tenLink, String uri) {
-        this.tenLink = tenLink;
-        this.uri = uri;
-    }
-
-    public String getTenLink() {
-        return tenLink;
-    }
-
-    public void setTenLink(String tenLink) {
-        this.tenLink = tenLink;
     }
 
     protected taptinModel(Parcel in) {

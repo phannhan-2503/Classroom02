@@ -89,8 +89,11 @@ public class NewsFragment extends Fragment {
         });
 
         //Thiết lập layout manager và adapter cho RecyclerView
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+ //       layoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
 
          //Tạo dữ liệu mẫu
 

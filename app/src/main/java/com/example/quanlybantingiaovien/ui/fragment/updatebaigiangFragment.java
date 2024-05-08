@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,9 +49,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -71,8 +74,6 @@ import java.util.concurrent.CountDownLatch;
 public class updatebaigiangFragment extends Fragment {
 
     private static final int MY_REQUEST_CODE = 2808;
-    private String mParam1;
-    private String mParam2;
     private View mView;
     private MainActivity mainActivity;
     private List<taptinModel> selectedFiles = new ArrayList<>();
@@ -94,6 +95,7 @@ public class updatebaigiangFragment extends Fragment {
                             int count = data.getClipData().getItemCount();
                             for (int i = 0; i < count; i++) {
                                 Uri uri = data.getClipData().getItemAt(i).getUri();
+
                                 taptinModel tapTin = new taptinModel(uri.toString()); // Tạo đối tượng taptinModel từ Uri
                                 selectedFiles.add(tapTin); // Thêm đối tượng vào danh sách
                             }
@@ -153,15 +155,18 @@ public class updatebaigiangFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(tapTinAdapter);
 
+
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
         updatebaidangadapter = new updatebaigiangadapter(mainActivity,selectedFiles);
         recyclerView.setAdapter(updatebaidangadapter);
+
 
 
         TextView uploadButton = mView.findViewById(R.id.btn_update_choosefile);
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 onCLickRequestPermission(getContext());
             }
         });
@@ -178,9 +183,10 @@ public class updatebaigiangFragment extends Fragment {
         btnLuuNoiDungChinhSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 EditText ed_updatendthongbao=mView.findViewById(R.id.ed_updatendthongbao);
                 updateDataOnFirebase(ed_updatendthongbao.getText().toString(),ttbgModel.getKey());
-                Navigation.findNavController(view).navigate(R.id.navigation_home, bundle);
+
             }
         });
 
@@ -207,7 +213,6 @@ public class updatebaigiangFragment extends Fragment {
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         mActivityResultLauncher.launch(Intent.createChooser(intent, "Chọn tập tin"));
 
-
     }
     private void updateDataOnFirebase(String newContent, String key) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("BangTin").child("1").child(key); // Thay "1" bằng key thực tế của mục dữ liệu
@@ -216,51 +221,106 @@ public class updatebaigiangFragment extends Fragment {
         updateMap.put("content", newContent);
         // Cập nhập thời gian
         Date currentDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm");
         String date = sdf.format(currentDate);
         updateMap.put("date", date);
 
         // Xóa tất cả các tập tin hiện có
-        updateMap.put("file", null);
+
+        // Tạo tham chiếu đến Storage và tải tập tin lên
+
+        Map<String, Object> fileData = new HashMap<>();
+        // Khởi tạo CountDownLatch với số lượng tập tin cần tải lên
+        CountDownLatch latch = new CountDownLatch(selectedFiles.size());
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference().child("Bangtin");
+
+
+
+        // Lấy thông tin về các file từ cơ sở dữ liệu Firebase
+//        databaseReference.child("file")
+//                .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                                                 @Override
+//                                                 public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                                                     if (task.isSuccessful()) {
+//                                                         // Thành công: task.getResult().getValue() chứa thông tin về các file
+//                                                         Map<String, Object> existingFiles = (Map<String, Object>) task.getResult().getValue();
+//                                                         if (existingFiles != null) {
+//                                                             // Nếu có, sao chép thông tin về các file cũ vào fileData
+//                                                             fileData.putAll(existingFiles);
+//
+//                                                             for (taptinModel model1 : fileData){
+//
+//                                                             }
+//
+//                                                             if (latch.getCount() == fileData.size()) {
+//                                                                 updateMap.put("file", fileData);
+//                                                                 // Thực hiện cập nhật dữ liệu trong Firebase
+//                                                                 databaseReference.updateChildren(updateMap)
+//                                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                                             @Override
+//                                                                             public void onSuccess(Void aVoid) {
+//                                                                                 // Xử lý khi cập nhật thành công
+//                                                                                 Toast.makeText(getContext(), "Cập nhật dữ liệu thành công!", Toast.LENGTH_SHORT).show();
+//                                                                                 Navigation.findNavController(mView).navigate(R.id.navigation_new);
+//                                                                             }
+//                                                                         })
+//                                                                         .addOnFailureListener(new OnFailureListener() {
+//                                                                             @Override
+//                                                                             public void onFailure(@NonNull Exception e) {
+//                                                                                 // Xử lý khi cập nhật thất bại
+//                                                                                 Toast.makeText(getContext(), "Cập nhật dữ liệu thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                                                             }
+//                                                                         });
+//                                                             }
+//                                                         }
+//                                                     }
+//
+//                                                 }
+//
+//
+//                                                 });
+
+
 
         // Kiểm tra xem có file nào được chọn không
-        if (selectedFiles != null && selectedFiles.size() > 0) {
-            Map<String, Object> fileData = new HashMap<>();
-
+        if (!selectedFiles.isEmpty()) {
             for (taptinModel model : selectedFiles) {
                 String fileKey = databaseReference.push().getKey();
                 String fileUrl = model.getUri();
+                //URL url = new URL(fileUrl);
+                // Tham chiếu đến tập tin bạn muốn tải lên
+                StorageReference fileRef = storageRef.child(getFileNameFromUri(fileUrl));
+                // Tải tập tin lên
+                UploadTask uploadTask = fileRef.putFile(Uri.parse(fileUrl));
 
-                // Thêm tập tin mới vào dữ liệu
-                fileData.put(fileKey, fileUrl);
 
-                // Tạo tham chiếu đến Storage và tải tập tin lên
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference().child("Bangtin").child(fileKey);
-                storageRef.putFile(Uri.parse(fileUrl))
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 // Lấy đường dẫn URL của tập tin sau khi tải lên thành công
-                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+
+                                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
+
                                         // Thêm đường dẫn URL vào cơ sở dữ liệu Firebase Realtime
                                         String downloadUrl = uri.toString();
                                         fileData.put(fileKey, downloadUrl);
-
-                                        // Kiểm tra xem đã thêm tất cả các đường dẫn URL vào cơ sở dữ liệu chưa
-                                        if (fileData.size() == selectedFiles.size()) {
-                                            // Thêm tập tin mới vào updateMap
+                                        // Giảm giá trị của latch khi một tập tin đã được tải lên thành công
+                                        latch.countDown();
+                                        // Kiểm tra nếu tất cả các tập tin đã được tải lên thành công
+                                        if (latch.getCount() == 0) {
                                             updateMap.put("file", fileData);
-
                                             // Thực hiện cập nhật dữ liệu trong Firebase
                                             databaseReference.updateChildren(updateMap)
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             // Xử lý khi cập nhật thành công
-                                                            Toast.makeText(getContext(), "Dữ liệu đã được cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getContext(), "Cập nhật dữ liệu thành công!", Toast.LENGTH_SHORT).show();
+                                                            Navigation.findNavController(mView).navigate(R.id.navigation_new);
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {
@@ -278,13 +338,60 @@ public class updatebaigiangFragment extends Fragment {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                // Xử lý khi tải lên thất bại
-                                Log.e("Firebase", "Failed to upload file: " + e.getMessage());
+                                latch.countDown();
+                                fileData.put(fileKey, fileUrl);
+                                if (latch.getCount() == 0) {
+                                    updateMap.put("file", fileData);
+                                    // Thực hiện cập nhật dữ liệu trong Firebase
+                                    databaseReference.updateChildren(updateMap)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    // Xử lý khi cập nhật thành công
+                                                    Toast.makeText(getContext(), "Cập nhật dữ liệu thành công!", Toast.LENGTH_SHORT).show();
+                                                    Navigation.findNavController(mView).navigate(R.id.navigation_new);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    // Xử lý khi cập nhật thất bại
+                                                    Toast.makeText(getContext(), "Cập nhật dữ liệu thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+
                             }
                         });
             }
         }
+        else {
+            // Nếu không có tập tin được chọn, chỉ đăng bài với nội dung và thông tin người đăng
+            updateMap.put("file","");
+            databaseReference.updateChildren(updateMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Nếu thành công, hiển thị thông báo
+                            Toast.makeText(getContext(), "Cập nhật dữ liệu thành công!", Toast.LENGTH_SHORT).show();
+                            Navigation.findNavController(mView).navigate(R.id.navigation_new);
+                            // Hoặc có thể thực hiện các hành động khác sau khi đăng bài thành công
+                            // Ví dụ: chuyển đến màn hình khác, làm mới giao diện, vv.
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Nếu thất bại, hiển thị thông báo lỗi
+                            Toast.makeText(getContext(), "Đăng bài thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            // Hoặc có thể xử lý lỗi theo ý của bạn
+                        }
+                    });
+
+        }
     }
+
+
+
 
 
     @SuppressLint("Range")
@@ -311,6 +418,4 @@ public class updatebaigiangFragment extends Fragment {
         }
         return result;
     }
-
-
 }

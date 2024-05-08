@@ -33,7 +33,7 @@ public class chitietbaigiangadapter extends RecyclerView.Adapter<chitietbaigiang
     @NonNull
     @Override
     public FileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_item_baigiang, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chitietbaigiang, parent, false);
         return new chitietbaigiangadapter.FileViewHolder(view);
     }
 
@@ -59,7 +59,7 @@ public class chitietbaigiangadapter extends RecyclerView.Adapter<chitietbaigiang
 
         public FileViewHolder(@NonNull View itemView) {
             super(itemView);
-            fileNameTextView = itemView.findViewById(R.id.txt_item_dangbai);
+            fileNameTextView = itemView.findViewById(R.id.txt_item_chitietbaigiang);
 
         }
     }

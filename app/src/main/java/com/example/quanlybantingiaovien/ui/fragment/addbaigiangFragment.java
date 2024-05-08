@@ -171,6 +171,7 @@ public class addbaigiangFragment extends Fragment {
                 bangTinData.put("date", date);
                 bangTinData.put("imageUrl",  imageUrl);
                 bangTinData.put("name", name);
+                bangTinData.put("comment", "");
                 String newPostId = bangTinRef.push().getKey();
 
 

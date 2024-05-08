@@ -149,7 +149,7 @@ public class chitietbaigiangFragment extends Fragment {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             deleteItemFromFirebase(ttbgModel.getKey());
-                                            Navigation.findNavController(view).navigate(R.id.navigation_home, bundle);
+                                            Navigation.findNavController(view).navigate(R.id.navigation_new, bundle);
 
                                         }
                                     },

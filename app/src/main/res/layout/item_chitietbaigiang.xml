@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_item_dangbai"
+        android:id="@+id/txt_item_chitietbaigiang"
         android:textSize="16dp"
         android:text="huy"
         android:layout_marginTop="5dp"
