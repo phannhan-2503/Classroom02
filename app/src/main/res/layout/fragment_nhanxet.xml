@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/recycler_ndnhanxet"
         android:layout_below="@+id/toolbarnhanxet"
+        android:layout_above="@+id/relative_nhanxet"
         />
     <View
         android:layout_width="match_parent"

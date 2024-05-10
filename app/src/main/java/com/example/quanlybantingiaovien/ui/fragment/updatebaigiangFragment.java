@@ -183,9 +183,13 @@ public class updatebaigiangFragment extends Fragment {
         btnLuuNoiDungChinhSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                EditText ed_updatendthongbao=mView.findViewById(R.id.ed_updatendthongbao);
-                updateDataOnFirebase(ed_updatendthongbao.getText().toString(),ttbgModel.getKey());
+                String content=noiDungTin.getText().toString();
+                if(content.equals("")){
+                    Toast.makeText(getContext(), "Thiếu nội dung!", Toast.LENGTH_SHORT).show();
+                    noiDungTin.requestFocus();
+                    return;
+                }
+                updateDataOnFirebase(content,ttbgModel.getKey());
 
             }
         });
@@ -234,52 +238,6 @@ public class updatebaigiangFragment extends Fragment {
         CountDownLatch latch = new CountDownLatch(selectedFiles.size());
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("Bangtin");
-
-
-
-        // Lấy thông tin về các file từ cơ sở dữ liệu Firebase
-//        databaseReference.child("file")
-//                .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                                                 @Override
-//                                                 public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                                                     if (task.isSuccessful()) {
-//                                                         // Thành công: task.getResult().getValue() chứa thông tin về các file
-//                                                         Map<String, Object> existingFiles = (Map<String, Object>) task.getResult().getValue();
-//                                                         if (existingFiles != null) {
-//                                                             // Nếu có, sao chép thông tin về các file cũ vào fileData
-//                                                             fileData.putAll(existingFiles);
-//
-//                                                             for (taptinModel model1 : fileData){
-//
-//                                                             }
-//
-//                                                             if (latch.getCount() == fileData.size()) {
-//                                                                 updateMap.put("file", fileData);
-//                                                                 // Thực hiện cập nhật dữ liệu trong Firebase
-//                                                                 databaseReference.updateChildren(updateMap)
-//                                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                                             @Override
-//                                                                             public void onSuccess(Void aVoid) {
-//                                                                                 // Xử lý khi cập nhật thành công
-//                                                                                 Toast.makeText(getContext(), "Cập nhật dữ liệu thành công!", Toast.LENGTH_SHORT).show();
-//                                                                                 Navigation.findNavController(mView).navigate(R.id.navigation_new);
-//                                                                             }
-//                                                                         })
-//                                                                         .addOnFailureListener(new OnFailureListener() {
-//                                                                             @Override
-//                                                                             public void onFailure(@NonNull Exception e) {
-//                                                                                 // Xử lý khi cập nhật thất bại
-//                                                                                 Toast.makeText(getContext(), "Cập nhật dữ liệu thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                                                                             }
-//                                                                         });
-//                                                             }
-//                                                         }
-//                                                     }
-//
-//                                                 }
-//
-//
-//                                                 });
 
 
 

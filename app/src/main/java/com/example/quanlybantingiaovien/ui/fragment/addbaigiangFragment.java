@@ -155,15 +155,23 @@ public class addbaigiangFragment extends Fragment {
             public void onClick(View view) {
                 ed_addndthongbao=mView.findViewById(R.id.ed_addndthongbao);
                 String content=ed_addndthongbao.getText().toString();
+                if(content.equals("")){
+                    Toast.makeText(getContext(), "Thiếu nội dung!", Toast.LENGTH_SHORT).show();
+                    ed_addndthongbao.requestFocus();
+                    return;
+                }
                 String name="Huy";
                 Date Date=new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm");
                 String date = sdf.format(Date);
                 String imageUrl="imageUrl";
+                //lấy id của class hiện tại so sánh với id bangtin đang xét
+                String id_class="1";
 
                 // Tham chiếu đến nút "BangTin" trong Firebase
-                DatabaseReference bangTinRef = FirebaseDatabase.getInstance().getReference("BangTin").child("1");
+                DatabaseReference bangTinRef = FirebaseDatabase.getInstance().getReference("BangTin").child(id_class);
                 // Tạo một ID ngẫu nhiên cho bài đăng mới
+                String newPostId = bangTinRef.push().getKey();
 
                 // Tạo một đối tượng dữ liệu mới
                 Map<String, Object> bangTinData = new HashMap<>();
@@ -172,7 +180,7 @@ public class addbaigiangFragment extends Fragment {
                 bangTinData.put("imageUrl",  imageUrl);
                 bangTinData.put("name", name);
                 bangTinData.put("comment", "");
-                String newPostId = bangTinRef.push().getKey();
+
 
 
                 // Thêm các tập tin vào dưới dạng đối tượng con với key ngẫu nhiên

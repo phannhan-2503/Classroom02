@@ -24,17 +24,15 @@ import com.example.quanlybantingiaovien.model.taptinModel;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
 import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
 import com.example.quanlybantingiaovien.ui.fragment.updatebaigiangFragment;
+import com.example.quanlybantingiaovien.ui.fragment.nhanxetFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -78,13 +76,23 @@ public class NewsFragment extends Fragment {
 
             }
             @Override
-            public void OnCLickItemChihSua(thongtinbaigiangModel ttbg) {
+            public void OnCLickItemChinhSua(thongtinbaigiangModel ttbg) {
                 updatebaigiangFragment updatebaigiangfragment= new updatebaigiangFragment();
-                Bundle bundle1=new Bundle();
-                bundle1.putParcelable("key_updatebaigiang",  ttbg);
-                updatebaigiangfragment.setArguments(bundle1);
-                Navigation.findNavController(mView).navigate(R.id.updatefragmentbaigiang, bundle1);
+                Bundle bundle=new Bundle();
+                bundle.putParcelable("key_updatebaigiang",  ttbg);
+                updatebaigiangfragment.setArguments(bundle);
+                Navigation.findNavController(mView).navigate(R.id.updatefragmentbaigiang, bundle);
             }
+
+            @Override
+            public void OnCLickItemNhanxet(thongtinbaigiangModel ttbg) {
+                nhanxetFragment nhanxetfragment= new nhanxetFragment();
+                Bundle bundle=new Bundle();
+                bundle.putParcelable("key_nhanxetbaigiang",  ttbg);
+                nhanxetfragment.setArguments(bundle);
+                Navigation.findNavController(mView).navigate(R.id.nhanxetfragmentbaigiang, bundle);
+            }
+
 
         });
 
@@ -106,9 +114,8 @@ public class NewsFragment extends Fragment {
 
         return root;
     }
-    private void createSampleData() throws Exception   {
-
-        Date dateformat = new Date();
+    private void createSampleData()   {
+        String key_class="1";
         // Khởi tạo Firebase Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("BangTin");
@@ -123,15 +130,13 @@ public class NewsFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
                     //Kiểm tra mã môn thuộc môn học nào
-                    if(key.equals("1")){
+                    if(key.equals(key_class)){
                         for (DataSnapshot snapshotvalue : snapshot.getChildren()) {
 
                             // Đọc dữ liệu từ snapshot
                             String src = snapshotvalue.child("imageUrl").getValue(String.class);
                             String tenGiangVien = snapshotvalue.child("name").getValue(String.class);
                             String noiDungTin = snapshotvalue.child("content").getValue(String.class);
-                            // Đọc ngày từ Firebase (đây có thể là string hoặc timestamp, phụ thuộc vào cách bạn lưu trữ)
-                            // Ví dụ nếu là timestamp
                             String ngayDangTin = snapshotvalue.child("date").getValue(String.class);
                             // Tạo danh sách các tập tin
                             List<taptinModel> files = new ArrayList<>();
@@ -140,8 +145,9 @@ public class NewsFragment extends Fragment {
                                 // Thêm các thuộc tính khác của tập tin nếu có
                                 files.add(new taptinModel(fileSrc));
                             }
+
                             CircleImageView profile_image=mView.findViewById(R.id.profile_image);
-                            // Sử dụng Glide để tải và hiển thị hình ảnh từ URL
+                            //Sử dụng Glide để tải và hiển thị hình ảnh từ URL
                             RequestOptions requestOptions = new RequestOptions()
                                     .placeholder(R.drawable.custom_bogocbanner) // Hình ảnh tạm thời nếu không tải được
                                     .error(R.drawable.custom_bogocbanner) // Hình ảnh mặc định khi xảy ra lỗi
@@ -156,6 +162,8 @@ public class NewsFragment extends Fragment {
                             dataList.add(item);
                         }
                         }
+
+
 
                 }
 

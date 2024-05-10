@@ -27,16 +27,22 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.chitietbaigiangadapter;
 import com.example.quanlybantingiaovien.adapter.dsbaigiangadapter;
+import com.example.quanlybantingiaovien.adapter.nhanxetadapter;
 import com.example.quanlybantingiaovien.adapter.taptinbaigiangadapter;
 import com.example.quanlybantingiaovien.adapter.updatebaigiangadapter;
+import com.example.quanlybantingiaovien.model.nhanxetModel;
 import com.example.quanlybantingiaovien.model.taptinModel;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -56,6 +62,9 @@ public class chitietbaigiangFragment extends Fragment {
     private RecyclerView recyclerViewDanhSachTapTin;
     private TextView txtXoa_ChinhSua;
     private chitietbaigiangadapter chitietbaigiangadapter;
+    private RecyclerView recyclerView;
+    private nhanxetadapter adapter;
+    private List<nhanxetModel> dataList;
 
     public chitietbaigiangFragment() {
         // Required empty public constructor
@@ -174,6 +183,24 @@ public class chitietbaigiangFragment extends Fragment {
                 popupMenu.show();
             }
         });
+        //Nhận xét
+        recyclerView=mView.findViewById(R.id.recycler_nhanxetlophoc_ctbaigiang);
+        adapter=new nhanxetadapter(getContext());
+        dataList=new ArrayList<>();
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+        adapter.setData(dataList);
+        createSampleData(ttbgModel.getKey());
+        TextView addnhanxetlophoc=mView.findViewById(R.id.addnhanxetlophoc);
+        addnhanxetlophoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("key_nhanxetbaigiang", ttbgModel);
+                Navigation.findNavController(view).navigate(R.id.nhanxetfragmentbaigiang, bundle);
+            }
+        });
 
         // Inflate the layout for this fragment
         return mView;
@@ -210,6 +237,51 @@ public class chitietbaigiangFragment extends Fragment {
                 Toast.makeText(getContext(), "Xóa thất bại!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void createSampleData(String key_itembangtin)   {
+
+        // Khởi tạo Firebase Database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String key_class="1";
+        DatabaseReference myRef = database.getReference("BangTin").child(key_class).child(key_itembangtin).child("comment");
+
+        // Lắng nghe sự kiện thay đổi dữ liệu trên Firebase
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Xóa dữ liệu cũ trước khi cập nhật mới
+                dataList.clear();
+                // Duyệt qua các dữ liệu trên Firebase và thêm vào danh sách dataList
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // Đọc dữ liệu từ snapshot
+                    String src = snapshot.child("imageUrl").getValue(String.class);
+                    String tenGiangVien = snapshot.child("name").getValue(String.class);
+                    String noiDungTin = snapshot.child("content").getValue(String.class);
+                    String ngayDangTin = snapshot.child("date").getValue(String.class);
+                    // Sử dụng Glide để tải và hiển thị hình ảnh từ URL
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.drawable.custom_bogocbanner) // Hình ảnh tạm thời nếu không tải được
+                            .error(R.drawable.custom_bogocbanner) // Hình ảnh mặc định khi xảy ra lỗi
+                            .diskCacheStrategy(DiskCacheStrategy.ALL); // Cache hình ảnh
+                    Glide.with(getContext())
+                            .load(src) // URL của hình ảnh
+                            .apply(requestOptions) // Áp dụng các tùy chọn của RequestOptions
+                    ;
+                    // Tạo đối tượng nhanxetModel
+                    nhanxetModel nhanxetmodel = new nhanxetModel(src, tenGiangVien, ngayDangTin, noiDungTin);
+                    //nhanxetmodel.setKey(snapshotvalue.getKey());
+                    dataList.add(nhanxetmodel);
+                }
+                // Cập nhật RecyclerView
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý trường hợp lỗi khi đọc dữ liệu từ Firebase
+            }
+        });
+        adapter.notifyDataSetChanged();
     }
 
 }

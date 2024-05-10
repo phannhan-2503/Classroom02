@@ -5,6 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.quanlybantingiaovien.model.nhanxetModel;
 
 import androidx.annotation.NonNull;
@@ -38,13 +42,20 @@ public class nhanxetadapter extends RecyclerView.Adapter<nhanxetadapter.YourView
         return new YourViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull YourViewHolder holder, int position) {
         nhanxetModel nhanxet=list.get(position);
-        holder.imageView.setImageResource(Integer.parseInt(nhanxet.getSrc()));
+        // Sử dụng Glide để tải và hiển thị hình ảnh từ URL
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.drawable.custom_bogocbanner) // Hình ảnh tạm thời nếu không tải được
+                .error(R.drawable.custom_bogocbanner) // Hình ảnh mặc định khi xảy ra lỗi
+                .diskCacheStrategy(DiskCacheStrategy.ALL); // Cache hình ảnh
+        Glide.with(context)
+                .load(nhanxet.getSrc()) // URL của hình ảnh
+                .apply(requestOptions) // Áp dụng các tùy chọn của RequestOptions
+                .into(holder.imageView);
         holder.txtTenGiangVien.setText(nhanxet.getTenGiangVien());
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm");
-//        String strDate = sdf.format(nhanxet.getNgayDangTin());
         holder.txtNgayNhanXet.setText(nhanxet.getNgayDangTin());
         holder.txtNoiDungNhanXet.setText(nhanxet.getNoiDungTin());
     }

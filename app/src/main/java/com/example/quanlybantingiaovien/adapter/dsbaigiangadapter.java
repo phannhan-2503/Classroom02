@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.quanlybantingiaovien.R;
+import com.example.quanlybantingiaovien.model.nhanxetModel;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
 import com.example.quanlybantingiaovien.model.taptinModel;
 import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
@@ -55,7 +56,8 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
     public  IClickItemListener iClickItemListener;
     public interface IClickItemListener{
         void OnCLickItemBaiGiang(thongtinbaigiangModel ttbg);
-        void OnCLickItemChihSua(thongtinbaigiangModel ttbg);
+        void OnCLickItemChinhSua(thongtinbaigiangModel ttbg);
+        void OnCLickItemNhanxet(thongtinbaigiangModel ttbg);
     }
 
 
@@ -132,7 +134,7 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
 
 
                         }else if(menuItem.getItemId()==R.id.itemChinhSua){
-                            iClickItemListener.OnCLickItemChihSua(data);
+                            iClickItemListener.OnCLickItemChinhSua(data);
 //                                Navigation.findNavController(view).navigate(R.id.updatefragmentbaigiang);
                         }
                         return false;
@@ -156,6 +158,13 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
             @Override
             public void onClick(View view) {
                 iClickItemListener.OnCLickItemBaiGiang(data);
+            }
+        });
+        holder.nhanxetlophoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iClickItemListener.OnCLickItemNhanxet(data);
+                //Navigation.findNavController(view).navigate(R.id.nhanxetfragmentbaigiang);
             }
         });
 
@@ -205,12 +214,7 @@ public class dsbaigiangadapter extends RecyclerView.Adapter<dsbaigiangadapter.Yo
             thongtinbaidang=itemView.findViewById(R.id.thongtinbaidang);
             txtXoa_ChinhSua=itemView.findViewById(R.id.txtxoa_chinhsua);
             fileNameTextView = itemView.findViewById(R.id.txt_item_dangbai);
-            nhanxetlophoc.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Navigation.findNavController(view).navigate(R.id.nhanxetfragmentbaigiang);
-                }
-            });
+
 
         }
     }
