@@ -2,93 +2,86 @@ package com.example.classroom02;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class EditProfileActivity extends AppCompatActivity {
-
-    EditText editName, editEmail, editUsername, editPassword;
-    Button saveButton;
-    String nameUser, emailUser, usernameUser, passwordUser;
-    DatabaseReference reference;
+    private EditText nameEditText, usernameEditText;
+    private Button saveButton;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        reference = FirebaseDatabase.getInstance().getReference("users");
+        // Initialize Firebase Database
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
 
-        editName = findViewById(R.id.editName);
-        editEmail = findViewById(R.id.editEmail);
-        editUsername = findViewById(R.id.editUsername);
-        editPassword = findViewById(R.id.editPassword);
+        nameEditText = findViewById(R.id.editName);
+        usernameEditText = findViewById(R.id.editUsername);
         saveButton = findViewById(R.id.saveButton);
 
-        showData();
+        // Lấy thông tin người dùng hiện tại
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Lấy UID của người dùng
+            final String uid = user.getUid();
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isNameChanged() || isPasswordChanged() || isEmailChanged()){
-                    Toast.makeText(EditProfileActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(EditProfileActivity.this, "No Changes Found", Toast.LENGTH_SHORT).show();
+            // Lấy thông tin người dùng từ Firebase Database và hiển thị lên EditText
+            mDatabase.child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DataSnapshot dataSnapshot = task.getResult();
+                        if (dataSnapshot.exists()) {
+                            String name = dataSnapshot.child("name").getValue(String.class);
+                            String email = dataSnapshot.child("email").getValue(String.class);
+                            String username = dataSnapshot.child("username").getValue(String.class);
+
+                            nameEditText.setText(name);
+                            usernameEditText.setText(username);
+                        }
+                    }
                 }
-            }
-        });
-    }
-
-    private boolean isNameChanged() {
-        if (!nameUser.equals(editName.getText().toString())){
-            reference.child(usernameUser).child("name").setValue(editName.getText().toString());
-            nameUser = editName.getText().toString();
-            return true;
-        } else {
-            return false;
+            });
         }
-    }
 
-    private boolean isEmailChanged() {
-        if (!emailUser.equals(editEmail.getText().toString())){
-            reference.child(usernameUser).child("email").setValue(editEmail.getText().toString());
-            emailUser = editEmail.getText().toString();
-            return true;
-        } else {
-            return false;
+        if (user != null) {
+            final String uid = user.getUid();
+
+            // Sự kiện khi nhấn nút Save
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Lấy dữ liệu từ EditText
+                    final String name = nameEditText.getText().toString().trim();
+                    final String username = usernameEditText.getText().toString().trim();
+
+                    // Lưu thông tin người dùng vào Firebase Database
+                    mDatabase.child(uid).child("name").setValue(name);
+                    mDatabase.child(uid).child("username").setValue(username);
+
+                    // Hiển thị thông báo
+                    Toast.makeText(EditProfileActivity.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+
+                    // Đóng Activity và quay trở lại ProfileActivity
+                    finish();
+                }
+            });
         }
-    }
-
-
-    private boolean isPasswordChanged() {
-        if (!passwordUser.equals(editPassword.getText().toString())){
-            reference.child(usernameUser).child("password").setValue(editPassword.getText().toString());
-            passwordUser = editPassword.getText().toString();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void showData(){
-
-        Intent intent = getIntent();
-
-        nameUser = intent.getStringExtra("name");
-        emailUser = intent.getStringExtra("email");
-        usernameUser = intent.getStringExtra("username");
-        passwordUser = intent.getStringExtra("password");
-
-        editName.setText(nameUser);
-        editEmail.setText(emailUser);
-        editUsername.setText(usernameUser);
-        editPassword.setText(passwordUser);
     }
 }
