@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,12 +38,46 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
     @Override
     public void onBindViewHolder(@NonNull ClassroomViewHolder holder, int position) {
         Classroom classroom = listClassroom.get(position);
-        if(classroom == null){
-            return;
-        }
-
-        Picasso.get().load(classroom.getImageUrl()).into(holder.imgClassroom);
         holder.tvName.setText(classroom.getName());
+        Picasso.get().load(classroom.getImageUrl()).into(holder.imgClassroom);
+        // Thiết lập sự kiện onClick cho ImageView img_selection
+        // Thiết lập sự kiện onClick cho ImageView img_selection
+        holder.imgSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo PopupWindow
+                View popupView = LayoutInflater.from(mContext).inflate(R.layout.cancel_menu, null);
+                PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                // Thiết lập sự kiện onClick cho TextView trong layout cancel_menu.xml
+                TextView tvCancel = popupView.findViewById(R.id.cancel_registration);
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Xử lý khi TextView được nhấn
+                        popupWindow.dismiss(); // Đóng PopupWindow sau khi thực hiện xong
+                        // Ở đây có thể gọi phương thức hủy đăng ký hoặc thực hiện hành động tương ứng
+                    }
+                });
+
+                // Xử lý sự kiện nhấn ra ngoài để đóng PopupWindow
+                popupWindow.setOutsideTouchable(true);
+
+                // Hiển thị PopupWindow
+                popupWindow.showAsDropDown(holder.imgSelection);
+
+                // Đặt sự kiện cho RecyclerView để đóng PopupWindow khi nhấn ra ngoài
+                RecyclerView recyclerView = (RecyclerView) holder.itemView.getParent();
+                recyclerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }
+        });
+
+
     }
 
     @Override
@@ -56,11 +91,13 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
     public class ClassroomViewHolder extends RecyclerView.ViewHolder{
         private ImageView imgClassroom;
         private TextView tvName;
+        ImageView imgSelection;
         public ClassroomViewHolder(@NonNull View itemView){
             super(itemView);
 
             imgClassroom = itemView.findViewById(R.id.img_classroom);
             tvName = itemView.findViewById(R.id.tv_tittle);
+            imgSelection = itemView.findViewById(R.id.img_selection);
         }
     }
 }

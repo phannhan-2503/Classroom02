@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class HomeFragment extends Fragment {
     private ImageView btSelections;
     private View homeMenuView;
     private PopupWindow popupWindow;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -111,6 +113,8 @@ public class HomeFragment extends Fragment {
                 openCreateClassFragment();
             }
         });
+
+
         // Kết nối với Firebase Realtime Database
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Class");
 
@@ -135,6 +139,8 @@ public class HomeFragment extends Fragment {
             }
         });
         return view;
+
+
     }
 
     // Phương thức để mở fragment mới
@@ -151,6 +157,7 @@ public class HomeFragment extends Fragment {
         fragmentTransaction.addToBackStack(null); // (Optional) Cho phép nhấn nút back để quay lại fragment trước đó
         fragmentTransaction.commit();
     }
+
     // Phương thức để mở fragment mới
     private void openCreateClassFragment() {
         // Tạo instance của fragment mới cần mở
