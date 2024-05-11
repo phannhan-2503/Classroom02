@@ -43,15 +43,15 @@
                 android:drawablePadding="8dp"
                 android:textColor="@color/black"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/editEmail"
-                android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Email"
-                android:drawablePadding="8dp"
-                android:textColor="@color/black"/>
+<!--            <EditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:id="@+id/editEmail"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:padding="8dp"-->
+<!--                android:hint="Email"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:textColor="@color/black"/>-->
 
 
             <EditText
@@ -64,16 +64,16 @@
                 android:drawablePadding="8dp"
                 android:textColor="@color/black"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/editPassword"
-                android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:drawablePadding="8dp"
-                android:textColor="@color/black"/>
+<!--            <EditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:id="@+id/editPassword"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:padding="8dp"-->
+<!--                android:hint="Password"-->
+<!--                android:inputType="textPassword"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:textColor="@color/black"/>-->
 
             <Button
                 android:layout_width="match_parent"
