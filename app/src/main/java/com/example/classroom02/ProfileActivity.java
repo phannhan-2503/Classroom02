@@ -20,9 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView nameTextView, emailTextView, usernameTextView;
+    private TextView nameTextView, emailTextView, phoneTextView;
     private DatabaseReference mDatabase;
-    private Button editProfile;
+    private Button editProfile, signoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         nameTextView = findViewById(R.id.profileName);
         emailTextView = findViewById(R.id.profileEmail);
-        usernameTextView = findViewById(R.id.profileUsername);
+        phoneTextView = findViewById(R.id.profilePhone);
         editProfile = findViewById(R.id.editButton);
+        signoutButton = findViewById(R.id.signoutButton);
 
         // Lấy thông tin người dùng đăng nhập
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -57,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                         nameTextView.setText(name);
                         emailTextView.setText(email);
-                        usernameTextView.setText(username);
+                        phoneTextView.setText(username);
                     }
                 }
 
@@ -73,6 +74,17 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Chuyển hướng tới trang activity_edit_profile.xml
                 startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
+            }
+        });
+        // Sự kiện khi nhấn nút Sign Out
+        signoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Đăng xuất người dùng
+                FirebaseAuth.getInstance().signOut();
+                // Chuyển hướng về màn hình đăng nhập
+                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                finish(); // Kết thúc Activity hiện tại
             }
         });
     }

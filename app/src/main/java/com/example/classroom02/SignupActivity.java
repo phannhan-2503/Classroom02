@@ -17,7 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
-    private EditText nameEditText, emailEditText, usernameEditText, passwordEditText;
+    private EditText nameEditText, emailEditText, phoneEditText, passwordEditText;
     private Button signupButton, loginButton;
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
@@ -36,7 +36,7 @@ public class SignupActivity extends AppCompatActivity {
 
         nameEditText = findViewById(R.id.signup_name);
         emailEditText = findViewById(R.id.signup_email);
-        usernameEditText = findViewById(R.id.signup_username);
+        phoneEditText = findViewById(R.id.signup_phonenumber);
         passwordEditText = findViewById(R.id.signup_password);
         signupButton = findViewById(R.id.signup_button);
         loginButton = findViewById(R.id.loginRedirectText);
@@ -47,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
                 // Lấy thông tin từ các EditText
                 final String name = nameEditText.getText().toString().trim();
                 final String email = emailEditText.getText().toString().trim();
-                final String username = usernameEditText.getText().toString().trim();
+                final String phone = phoneEditText.getText().toString().trim();
                 final String password = passwordEditText.getText().toString().trim();
 
                 // Tạo tài khoản trên Firebase Authentication
@@ -66,7 +66,7 @@ public class SignupActivity extends AppCompatActivity {
                                         DatabaseReference userUIDRef = usersRef.child(userId);
                                         userUIDRef.child("name").setValue(name);
                                         userUIDRef.child("email").setValue(email);
-                                        userUIDRef.child("username").setValue(username);
+                                        userUIDRef.child("phonenumber").setValue(phone);
 
                                         // Hiển thị thông báo và chuyển đến màn hình chính hoặc màn hình đăng nhập
                                         Toast.makeText(SignupActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();

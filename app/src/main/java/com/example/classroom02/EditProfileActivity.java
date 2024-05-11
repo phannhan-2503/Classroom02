@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class EditProfileActivity extends AppCompatActivity {
-    private EditText nameEditText, usernameEditText;
+    private EditText nameEditText, phoneEditText;
     private Button saveButton;
     private DatabaseReference mDatabase;
 
@@ -32,7 +32,7 @@ public class EditProfileActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
 
         nameEditText = findViewById(R.id.editName);
-        usernameEditText = findViewById(R.id.editUsername);
+        phoneEditText = findViewById(R.id.editPhone);
         saveButton = findViewById(R.id.saveButton);
 
         // Lấy thông tin người dùng hiện tại
@@ -53,7 +53,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             String username = dataSnapshot.child("username").getValue(String.class);
 
                             nameEditText.setText(name);
-                            usernameEditText.setText(username);
+                            phoneEditText.setText(username);
                         }
                     }
                 }
@@ -69,7 +69,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // Lấy dữ liệu từ EditText
                     final String name = nameEditText.getText().toString().trim();
-                    final String username = usernameEditText.getText().toString().trim();
+                    final String username = phoneEditText.getText().toString().trim();
 
                     // Lưu thông tin người dùng vào Firebase Database
                     mDatabase.child(uid).child("name").setValue(name);

@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="Classroom"
                 android:textSize="36sp"
                 android:textAlignment="center"
                 android:textStyle="bold"
@@ -39,7 +39,7 @@
                 android:id="@+id/login_username"
                 android:layout_marginTop="40dp"
                 android:padding="8dp"
-                android:hint="Username"
+                android:hint="Email"
                 android:drawablePadding="8dp"
                 android:textColor="@color/black"/>
 
@@ -49,7 +49,7 @@
                 android:id="@+id/login_password"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:hint="Password"
+                android:hint="Mật khẩu"
                 android:inputType="textPassword"
                 android:drawablePadding="8dp"
                 android:textColor="@color/black"/>
@@ -57,7 +57,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Login"
+                android:text="Đăng nhập"
                 android:id="@+id/login_button"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
@@ -65,15 +65,50 @@
                 app:cornerRadius = "20dp"/>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Đăng ký"
                 android:id="@+id/signup_heading"
-                android:text="Not yet registered? Sign Up"
-                android:layout_gravity="center"
-                android:padding="8dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/lavender"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:backgroundTint="@color/lavender"
+                app:cornerRadius = "20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hoặc đăng nhập bằng::"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:alpha="0.7"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="12dp"
+                    android:background="@drawable/google"
+                    android:id="@+id/googleButton"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="12dp"
+                    android:background="@drawable/facebook"/>
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="12dp"
+                    android:background="@drawable/twitter"/>
+
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
