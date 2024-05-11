@@ -13,4 +13,5 @@
     <string name="logout">Logout</string>
     <string name="Username">Username\n</string>
     <string name="Phone">Phone</string>
+    <string name="default_web_client_id">526819218023-ro8q1lmin9svv12c1eodmqcj5rtg74hq.apps.googleusercontent.com</string>
 </resources>
