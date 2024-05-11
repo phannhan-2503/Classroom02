@@ -1,14 +1,8 @@
 package com.example.classroom02;
 
 public class HelperClass {
-        String name,email,password,phone;
 
-    public HelperClass(String name, String email, String password, String phone) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-    }
+    String name, email, username, password;
 
     public String getName() {
         return name;
@@ -26,6 +20,14 @@ public class HelperClass {
         this.email = email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -34,11 +36,13 @@ public class HelperClass {
         this.password = password;
     }
 
-    public String getPhone() {
-        return phone;
+    public HelperClass(String name, String email, String username, String password) {
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.password = password;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public HelperClass() {
     }
 }
