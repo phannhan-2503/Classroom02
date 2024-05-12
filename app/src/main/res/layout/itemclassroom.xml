@@ -34,7 +34,7 @@
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/img_section"
+        android:id="@+id/img_selection"
         android:layout_marginTop="10dp"
         android:layout_width="30dp"
         android:layout_height="30dp"
