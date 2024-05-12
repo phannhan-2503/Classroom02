@@ -16,6 +16,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SignupActivity extends AppCompatActivity {
     private EditText nameEditText, emailEditText, phoneEditText, passwordEditText;
     private Button signupButton, loginButton;
@@ -31,7 +34,6 @@ public class SignupActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Initialize Firebase Realtime Database
-//        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
         mDatabase = FirebaseDatabase.getInstance();
 
         nameEditText = findViewById(R.id.signup_name);
@@ -67,6 +69,10 @@ public class SignupActivity extends AppCompatActivity {
                                         userUIDRef.child("name").setValue(name);
                                         userUIDRef.child("email").setValue(email);
                                         userUIDRef.child("phonenumber").setValue(phone);
+
+                                        // Tạo một HashMap để lưu trữ thông tin các phòng học mà người dùng đã tham gia
+                                        Map<String, Object> joinedClassrooms = new HashMap<>();
+                                        userUIDRef.child("joined_classrooms").setValue(joinedClassrooms);
 
                                         // Hiển thị thông báo và chuyển đến màn hình chính hoặc màn hình đăng nhập
                                         Toast.makeText(SignupActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();

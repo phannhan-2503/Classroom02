@@ -1,13 +1,20 @@
 package com.example.classroom02.Adapter;
 
 public class Classroom {
+    private String id; // Thêm biến id
     private String imageUrl;
     private String name;
     private String part;
     private String room;
     private String theme;
 
-    public Classroom(String imageUrl, String name, String part, String room, String theme) {
+    public Classroom() {
+        // Empty constructor required for Firebase
+    }
+
+    // Constructor
+    public Classroom(String id, String imageUrl, String name, String part, String room, String theme) {
+        this.id = id;
         this.imageUrl = imageUrl;
         this.name = name;
         this.part = part;
@@ -15,9 +22,13 @@ public class Classroom {
         this.theme = theme;
     }
 
-    public Classroom(String imageUrl, String name) {
-        this.imageUrl = imageUrl;
-        this.name = name;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getImageUrl() {
@@ -60,4 +71,3 @@ public class Classroom {
         this.theme = theme;
     }
 }
-

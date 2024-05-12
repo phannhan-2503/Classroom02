@@ -7,16 +7,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.classroom02.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.ClassroomViewHolder>{
+public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.ClassroomViewHolder> {
     private Context mContext;
     private List<Classroom> listClassroom;
 
@@ -24,10 +29,11 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
         this.mContext = mContext;
     }
 
-    public void setData(List<Classroom> list){
+    public void setData(List<Classroom> list) {
         this.listClassroom = list;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public ClassroomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,8 +46,7 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
         Classroom classroom = listClassroom.get(position);
         holder.tvName.setText(classroom.getName());
         Picasso.get().load(classroom.getImageUrl()).into(holder.imgClassroom);
-        // Thiết lập sự kiện onClick cho ImageView img_selection
-        // Thiết lập sự kiện onClick cho ImageView img_selection
+
         holder.imgSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +61,27 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
                     public void onClick(View v) {
                         // Xử lý khi TextView được nhấn
                         popupWindow.dismiss(); // Đóng PopupWindow sau khi thực hiện xong
-                        // Ở đây có thể gọi phương thức hủy đăng ký hoặc thực hiện hành động tương ứng
+
+                        // Lấy ID của lớp học
+                        String classId = classroom.getId();
+
+                        // Kiểm tra xem lớp học có ID không
+                        if (classId == null || classId.isEmpty()) {
+                            Toast.makeText(mContext, "Class ID is invalid.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // Lấy UID của người dùng hiện tại
+                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                        if (currentUser == null) {
+                            Toast.makeText(mContext, "User not logged in.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        String uid = currentUser.getUid();
+
+                        // Cập nhật dữ liệu trên Firebase Realtime Database
+                        cancelRegistration(classId, uid);
                     }
                 });
 
@@ -76,28 +101,52 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
                 });
             }
         });
-
-
     }
 
     @Override
     public int getItemCount() {
-        if(listClassroom != null){
+        if (listClassroom != null) {
             return listClassroom.size();
         }
         return 0;
     }
 
-    public class ClassroomViewHolder extends RecyclerView.ViewHolder{
+    public class ClassroomViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgClassroom;
         private TextView tvName;
-        ImageView imgSelection;
-        public ClassroomViewHolder(@NonNull View itemView){
+        private ImageView imgSelection;
+
+        public ClassroomViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imgClassroom = itemView.findViewById(R.id.img_classroom);
             tvName = itemView.findViewById(R.id.tv_tittle);
             imgSelection = itemView.findViewById(R.id.img_selection);
         }
+    }
+
+    private void cancelRegistration(String classId, String uid) {
+        // Lấy reference đến Firebase Realtime Database
+        DatabaseReference classRef = FirebaseDatabase.getInstance().getReference().child("Class").child(classId);
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("joined_classrooms");
+
+        // Xóa user khỏi danh sách thành viên của lớp học
+        classRef.child("members").child(uid).removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    // Xóa lớp học khỏi danh sách lớp học đã tham gia của user
+                    userRef.child(classId).removeValue()
+                            .addOnSuccessListener(aVoid1 -> {
+                                // Thông báo hủy đăng ký thành công
+                                Toast.makeText(mContext, "Cancelled registration successfully!", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                // Thông báo hủy đăng ký không thành công
+                                Toast.makeText(mContext, "Failed to cancel registration. Please try again.", Toast.LENGTH_SHORT).show();
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    // Thông báo hủy đăng ký không thành công
+                    Toast.makeText(mContext, "Failed to cancel registration. Please try again.", Toast.LENGTH_SHORT).show();
+                });
     }
 }
