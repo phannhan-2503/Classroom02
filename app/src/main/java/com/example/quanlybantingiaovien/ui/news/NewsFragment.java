@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.quanlybantingiaovien.MainActivityBangTin;
+import com.example.quanlybantingiaovien.MainActivity;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.dsbaigiangadapter;
 import com.example.quanlybantingiaovien.databinding.FragmentNewsBinding;
@@ -45,7 +45,7 @@ public class NewsFragment extends Fragment {
     private List<thongtinbaigiangModel> dataList;
     private View mView;
     private NewsFragment newsFragment;
-    private MainActivityBangTin mainActivityBangTin;
+    private MainActivity mainActivity;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

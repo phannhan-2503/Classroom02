@@ -67,7 +67,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
 
     //message
-    implementation("com.google.firebase:firebase-messaging")
+
 
     //xử lý hình ảnh
 //    implementation("com.squareup.picasso:picasso:2.71828")

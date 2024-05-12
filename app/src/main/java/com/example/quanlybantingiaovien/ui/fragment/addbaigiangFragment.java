@@ -33,7 +33,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quanlybantingiaovien.MainActivityBangTin;
+import com.example.quanlybantingiaovien.MainActivity;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.addbaigiangadapter;
 import com.example.quanlybantingiaovien.model.taptinModel;
@@ -63,7 +63,7 @@ public class addbaigiangFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     private static final int MY_REQUEST_CODE = 28082002;
     private View mView;
-    private MainActivityBangTin mainActivityBangTin;
+    private MainActivity mainActivity;
 
 
 
@@ -123,10 +123,10 @@ public class addbaigiangFragment extends Fragment {
 
         // Inflate the layout for this fragment
         mView= inflater.inflate(R.layout.fragment_addbbaigiang, container, false);
-        mainActivityBangTin = (MainActivityBangTin) getActivity();
+        mainActivity = (MainActivity) getActivity();
         recyclerView = mView.findViewById(R.id.recycler_addfile);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivityBangTin));
-        addbaidangadapter = new addbaigiangadapter(mainActivityBangTin,selectedFiles);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
+        addbaidangadapter = new addbaigiangadapter(mainActivity,selectedFiles);
         recyclerView.setAdapter(addbaidangadapter);
 
         TextView uploadButton = mView.findViewById(R.id.btn_add_choosefile);
@@ -287,7 +287,7 @@ public class addbaigiangFragment extends Fragment {
             openFileChooser();
         }
         else{
-            ActivityCompat.requestPermissions(mainActivityBangTin, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
+            ActivityCompat.requestPermissions(mainActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
         }
     }
 
