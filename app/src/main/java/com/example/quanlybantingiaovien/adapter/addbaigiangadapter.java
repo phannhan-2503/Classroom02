@@ -140,7 +140,6 @@ public class addbaigiangadapter extends RecyclerView.Adapter<addbaigiangadapter.
         }
 
 
-
     }
     @SuppressLint("Range")
     private String getFileNameFromUri( String result) {
