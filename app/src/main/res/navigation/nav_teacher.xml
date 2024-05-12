@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_teacher"
+    app:startDestination="@+id/navigation_exer">
+
+    <fragment
+        android:id="@+id/navigation_notifi"
+        android:name="com.example.classroom02.ui.notifi.NotifiFragment"
+        android:label="Bảng tin"
+        tools:layout="@layout/fragment_notifi" />
+
+    <fragment
+        android:id="@+id/navigation_exer"
+        android:name="com.example.classroom02.ui.exer.ExerFragment"
+        android:label="Bài tập"
+        tools:layout="@layout/fragment_exer" />
+
+    <fragment
+        android:id="@+id/navigation_people"
+        android:name="com.example.classroom02.ui.people.PeopleFragment"
+        android:label="Mọi người"
+        tools:layout="@layout/fragment_people" />
+</navigation>
