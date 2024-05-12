@@ -11,9 +11,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,32 +26,24 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PackageManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quanlybantingiaovien.MainActivity;
+import com.example.quanlybantingiaovien.MainActivityBangTin;
 import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.adapter.addbaigiangadapter;
 import com.example.quanlybantingiaovien.adapter.taptinbaigiangadapter;
 import com.example.quanlybantingiaovien.adapter.updatebaigiangadapter;
 import com.example.quanlybantingiaovien.model.taptinModel;
 import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -62,7 +52,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -75,7 +64,7 @@ public class updatebaigiangFragment extends Fragment {
 
     private static final int MY_REQUEST_CODE = 2808;
     private View mView;
-    private MainActivity mainActivity;
+    private MainActivityBangTin mainActivityBangTin;
     private List<taptinModel> selectedFiles = new ArrayList<>();
     private RecyclerView recyclerView;
     private updatebaigiangadapter updatebaidangadapter;
@@ -138,7 +127,7 @@ public class updatebaigiangFragment extends Fragment {
 
         // Inflate the layout for this fragment
         mView= inflater.inflate(R.layout.fragment_updatebaigiang, container, false);
-        mainActivity= (MainActivity) getActivity();
+        mainActivityBangTin = (MainActivityBangTin) getActivity();
         recyclerView = mView.findViewById(R.id.recycler_updatefile);
         noiDungTin=mView.findViewById(R.id.ed_updatendthongbao);
         //truyền dữ liệu giữa fragment
@@ -156,8 +145,8 @@ public class updatebaigiangFragment extends Fragment {
         recyclerView.setAdapter(tapTinAdapter);
 
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
-        updatebaidangadapter = new updatebaigiangadapter(mainActivity,selectedFiles);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivityBangTin));
+        updatebaidangadapter = new updatebaigiangadapter(mainActivityBangTin,selectedFiles);
         recyclerView.setAdapter(updatebaidangadapter);
 
 
@@ -207,7 +196,7 @@ public class updatebaigiangFragment extends Fragment {
             openFileChooser();
         }
         else{
-            ActivityCompat.requestPermissions(mainActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
+            ActivityCompat.requestPermissions(mainActivityBangTin, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
         }
     }
 

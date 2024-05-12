@@ -33,23 +33,18 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quanlybantingiaovien.MainActivity;
+import com.example.quanlybantingiaovien.MainActivityBangTin;
 import com.example.quanlybantingiaovien.R;
 import com.example.quanlybantingiaovien.adapter.addbaigiangadapter;
 import com.example.quanlybantingiaovien.model.taptinModel;
-import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,7 +63,7 @@ public class addbaigiangFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     private static final int MY_REQUEST_CODE = 28082002;
     private View mView;
-    private MainActivity mainActivity;
+    private MainActivityBangTin mainActivityBangTin;
 
 
 
@@ -128,10 +123,10 @@ public class addbaigiangFragment extends Fragment {
 
         // Inflate the layout for this fragment
         mView= inflater.inflate(R.layout.fragment_addbbaigiang, container, false);
-        mainActivity= (MainActivity) getActivity();
+        mainActivityBangTin = (MainActivityBangTin) getActivity();
         recyclerView = mView.findViewById(R.id.recycler_addfile);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
-        addbaidangadapter = new addbaigiangadapter(mainActivity,selectedFiles);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivityBangTin));
+        addbaidangadapter = new addbaigiangadapter(mainActivityBangTin,selectedFiles);
         recyclerView.setAdapter(addbaidangadapter);
 
         TextView uploadButton = mView.findViewById(R.id.btn_add_choosefile);
@@ -227,7 +222,9 @@ public class addbaigiangFragment extends Fragment {
                                                         public void onSuccess(Void aVoid) {
                                                             // Nếu thành công, hiển thị thông báo
                                                             Toast.makeText(getContext(), "Đăng bài thành công!", Toast.LENGTH_SHORT).show();
+                                                            // Gọi phương thức sendNotification từ MyFirebaseMessagingService
                                                             Navigation.findNavController(view).popBackStack();
+
                                                             // Hoặc có thể thực hiện các hành động khác sau khi đăng bài thành công
                                                             // Ví dụ: chuyển đến màn hình khác, làm mới giao diện, vv.
                                                         }
@@ -280,6 +277,7 @@ public class addbaigiangFragment extends Fragment {
 
         return mView;
     }
+
     public void onCLickRequestPermission(Context context){
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M){
             openFileChooser();
@@ -289,7 +287,7 @@ public class addbaigiangFragment extends Fragment {
             openFileChooser();
         }
         else{
-            ActivityCompat.requestPermissions(mainActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
+            ActivityCompat.requestPermissions(mainActivityBangTin, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
         }
     }
 

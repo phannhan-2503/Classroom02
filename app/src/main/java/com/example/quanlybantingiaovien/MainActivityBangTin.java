@@ -2,12 +2,9 @@ package com.example.quanlybantingiaovien;
 
 import android.os.Bundle;
 
-import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
-import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,9 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.quanlybantingiaovien.databinding.ActivityMainBinding;
 
-import java.io.Serializable;
-
-public class MainActivity extends AppCompatActivity  {
+public class MainActivityBangTin extends AppCompatActivity  {
 
     private ActivityMainBinding binding;
 
