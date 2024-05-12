@@ -29,6 +29,18 @@
             android:layout_height="match_parent"
             android:id="@+id/fragment_container"/>
 
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/user_details"-->
+<!--            android:text="Hello World!"/>-->
+
+<!--        <Button-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/logout"-->
+<!--            android:text="@string/logout"/>-->
+
     </LinearLayout>
     
     <com.google.android.material.navigation.NavigationView
