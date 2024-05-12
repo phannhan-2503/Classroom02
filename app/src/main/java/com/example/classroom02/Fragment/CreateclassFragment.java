@@ -14,13 +14,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.classroom02.Adapter.Classroom;
-
 import com.example.classroom02.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class CreateclassFragment extends Fragment {
@@ -28,7 +30,9 @@ public class CreateclassFragment extends Fragment {
     private EditText editTextName, editTextPart, editTextRoom, editTextTheme;
     private Button buttonCreate;
 
-    private DatabaseReference databaseReference;
+    private DatabaseReference classDatabaseReference;
+    private DatabaseReference userDatabaseReference;
+    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,7 +48,8 @@ public class CreateclassFragment extends Fragment {
         buttonCreate = view.findViewById(R.id.button_create);
 
         // Initialize Firebase
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Class");
+        classDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Class");
+        mAuth = FirebaseAuth.getInstance();
 
         buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +68,15 @@ public class CreateclassFragment extends Fragment {
         String room = editTextRoom.getText().toString().trim();
         String theme = editTextTheme.getText().toString().trim();
 
+        // Validate input
+        if (TextUtils.isEmpty(name)) {
+            editTextName.setError("Required.");
+            return;
+        }
+
+        // Get the current user's ID
+        String userId = mAuth.getCurrentUser().getUid();
+
         String[] imageUrls = {
                 "https://i.imgur.com/0QPaGB8.jpeg",
                 "https://i.imgur.com/8bJqpTz.jpeg",
@@ -72,17 +86,14 @@ public class CreateclassFragment extends Fragment {
         int randomIndex = random.nextInt(imageUrls.length);
         String randomImageUrl = imageUrls[randomIndex];
 
-        // Validate input
-        if (TextUtils.isEmpty(name)) {
-            editTextName.setError("Required.");
-            return;
-        }
+        // Generate a unique ID for the class
+        String classId = classDatabaseReference.push().getKey();
 
-        // Create new Class object
-        Classroom newClass = new Classroom(randomImageUrl, name, part, room, theme);
+        // Create a new Classroom object
+        Classroom newClass = new Classroom(classId, randomImageUrl, name, part, room, theme);
 
-        // Push new Class to Firebase Database
-        databaseReference.push().setValue(newClass)
+        // Push the new class to Firebase Database
+        classDatabaseReference.child(classId).setValue(newClass)
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -92,12 +103,54 @@ public class CreateclassFragment extends Fragment {
                         editTextPart.setText("");
                         editTextRoom.setText("");
                         editTextTheme.setText("");
+
+                        // Add the current user to the members of this class
+                        addCurrentUserToMembers(classId, userId);
                     }
                 })
                 .addOnFailureListener(getActivity(), new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getActivity(), "Failed to create class. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+    private void addCurrentUserToMembers(String classId, String userId) {
+        // Add the user to members of this class
+        DatabaseReference classMembersRef = classDatabaseReference.child(classId).child("members").child(userId);
+        classMembersRef.setValue(true)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // User added to members successfully
+                        // Add the class ID to the joined_classrooms of the user
+                        addClassToJoinedClassrooms(classId, userId);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to add user to members
+                    }
+                });
+    }
+
+    private void addClassToJoinedClassrooms(final String classId, String userId) {
+        // Get reference to user's joined_classrooms
+        userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("joined_classrooms");
+        userDatabaseReference.child(classId).setValue(true)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Class ID added to joined_classrooms successfully
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to add class ID to joined_classrooms
                     }
                 });
     }
