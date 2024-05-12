@@ -61,7 +61,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ArchivedClassesFragment()).commit();
         } else if (item.getItemId() == R.id.Settings) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
-
+        } else if (item.getItemId() == R.id.Users){
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }
