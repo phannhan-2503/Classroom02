@@ -64,9 +64,6 @@ public class addbaigiangFragment extends Fragment {
     private static final int MY_REQUEST_CODE = 28082002;
     private View mView;
     private MainActivity mainActivity;
-
-
-
     private List<taptinModel> selectedFiles = new ArrayList<>();
     private RecyclerView recyclerView;
     private addbaigiangadapter addbaidangadapter;
