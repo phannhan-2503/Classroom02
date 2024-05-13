@@ -216,7 +216,7 @@ public class updatebaigiangFragment extends Fragment {
         Date currentDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM HH:mm");
         String date = sdf.format(currentDate);
-        updateMap.put("date", date);
+        updateMap.put("date", "Đã chỉnh sửa "+date);
 
         // Xóa tất cả các tập tin hiện có
 
