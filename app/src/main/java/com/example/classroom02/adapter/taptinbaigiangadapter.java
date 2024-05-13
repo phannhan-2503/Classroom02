@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.adapter;
+package com.example.classroom02.adapter;
 
 // FileAdapter.java
 import android.annotation.SuppressLint;
@@ -16,8 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.model.taptinModel;
+import com.example.classroom02.R;
+import com.example.classroom02.model.taptinModel;
 
 import java.util.List;
 

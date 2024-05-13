@@ -1,5 +1,6 @@
-package com.example.quanlybantingiaovien.adapter;
+package com.example.classroom02.adapter;
 
+// FileAdapter.java
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -19,16 +20,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.model.taptinModel;
+import com.example.classroom02.R;
+import com.example.classroom02.model.taptinModel;
 
 import java.util.List;
 
-public class updatebaigiangadapter extends RecyclerView.Adapter<updatebaigiangadapter.FileViewHolder> {
+public class addbaigiangadapter extends RecyclerView.Adapter<addbaigiangadapter.FileViewHolder> {
+
     private Context context;
     private List<taptinModel> fileList;
 
-    public updatebaigiangadapter(Context context, List<taptinModel> fileList) {
+    public addbaigiangadapter(Context context, List<taptinModel> fileList) {
         this.context = context;
         this.fileList = fileList;
     }
@@ -37,7 +39,7 @@ public class updatebaigiangadapter extends RecyclerView.Adapter<updatebaigiangad
     @Override
     public FileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_addvaupdatebaigiang, parent, false);
-        return new updatebaigiangadapter.FileViewHolder(view);
+        return new FileViewHolder(view);
     }
 
     @Override
@@ -57,6 +59,7 @@ public class updatebaigiangadapter extends RecyclerView.Adapter<updatebaigiangad
                 openFile(fileUri.getUri());
             }
         });
+
     }
 
     @Override
@@ -70,7 +73,7 @@ public class updatebaigiangadapter extends RecyclerView.Adapter<updatebaigiangad
 
         public FileViewHolder(@NonNull View itemView) {
             super(itemView);
-            fileNameTextView = itemView.findViewById(com.example.quanlybantingiaovien.R.id.txt_item_dangbai_fragmentaddvaupdate);
+            fileNameTextView = itemView.findViewById(com.example.classroom02.R.id.txt_item_dangbai_fragmentaddvaupdate);
             txtclickxoa_fragmentchinhsua = itemView.findViewById(R.id.txtxoa_fragmentaddvaupdate);
             txtclickxoa_fragmentchinhsua.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,23 +138,15 @@ public class updatebaigiangadapter extends RecyclerView.Adapter<updatebaigiangad
                 dialog.show();
             }
         }
+
+
     }
     @SuppressLint("Range")
-    private String getFileNameFromUri(String uriString) {
-        if (uriString == null) {
-            return null;
-        }
-
-        Uri uri = Uri.parse(uriString);
-        if (uri == null) {
-            return null;
-        }
-
-        String result = null;
-        if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
-            Cursor cursor = null;
+    private String getFileNameFromUri( String result) {
+        Uri uri=Uri.parse(result);
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
             try {
-                cursor = context.getContentResolver().query(uri, null, null, null, null);
                 if (cursor != null && cursor.moveToFirst()) {
                     result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 }
@@ -170,8 +165,6 @@ public class updatebaigiangadapter extends RecyclerView.Adapter<updatebaigiangad
         }
         return result;
     }
-
-
 
     // Mở tệp khi người dùng nhấn vào một item trong RecyclerView
     private void openFile(String file) {

@@ -1,12 +1,9 @@
-package com.example.quanlybantingiaovien.model;
+package com.example.classroom02.model;
 
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
-
-import java.io.Serializable;
 
 public class taptinModel implements Parcelable {
     public String uri;

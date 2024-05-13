@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.ui.fragment;
+package com.example.classroom02.ui.fragment;
 
 
 import android.app.AlertDialog;
@@ -24,15 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.adapter.chitietbaigiangadapter;
-import com.example.quanlybantingiaovien.adapter.dsbaigiangadapter;
-import com.example.quanlybantingiaovien.adapter.nhanxetadapter;
-import com.example.quanlybantingiaovien.adapter.taptinbaigiangadapter;
-import com.example.quanlybantingiaovien.adapter.updatebaigiangadapter;
-import com.example.quanlybantingiaovien.model.nhanxetModel;
-import com.example.quanlybantingiaovien.model.taptinModel;
-import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
+import com.example.classroom02.R;
+import com.example.classroom02.adapter.chitietbaigiangadapter;
+import com.example.classroom02.adapter.nhanxetadapter;
+import com.example.classroom02.adapter.taptinbaigiangadapter;
+import com.example.classroom02.model.nhanxetModel;
+import com.example.classroom02.model.taptinModel;
+import com.example.classroom02.model.thongtinbaigiangModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +39,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 

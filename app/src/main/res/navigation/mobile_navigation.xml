@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_new"
-        android:name="com.example.quanlybantingiaovien.ui.news.NewsFragment"
+        android:name="com.example.classroom02.ui.news.NewsFragment"
         android:label="@string/title_bangtin"
         tools:layout="@layout/fragment_news" >
 
@@ -27,28 +27,28 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.quanlybantingiaovien.ui.dashboard.DashboardFragment"
+        android:name="com.example.classroom02.ui.dashboard.DashboardFragment"
         android:label="@string/title_baitap"
         tools:layout="@layout/fragment_homework" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.quanlybantingiaovien.ui.notifications.NotificationsFragment"
+        android:name="com.example.classroom02.ui.notifications.NotificationsFragment"
         android:label="@string/title_moinguoi"
         tools:layout="@layout/fragment_people" />
     <fragment
         android:id="@+id/addfragmentbaigiang"
-        android:name="com.example.quanlybantingiaovien.ui.fragment.addbaigiangFragment"
+        android:name="com.example.classroom02.ui.fragment.addbaigiangFragment"
         android:label="add"
         tools:layout="@layout/fragment_addbbaigiang" />
     <fragment
         android:id="@+id/updatefragmentbaigiang"
-        android:name="com.example.quanlybantingiaovien.ui.fragment.updatebaigiangFragment"
+        android:name="com.example.classroom02.ui.fragment.updatebaigiangFragment"
         android:label="update"
         tools:layout="@layout/fragment_updatebaigiang" />
     <fragment
         android:id="@+id/chitietfragmentbaigiang"
-        android:name="com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment"
+        android:name="com.example.classroom02.ui.fragment.chitietbaigiangFragment"
         android:label="detail"
         tools:layout="@layout/fragment_chitietbaigiang" >
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/nhanxetfragmentbaigiang"
-        android:name="com.example.quanlybantingiaovien.ui.fragment.nhanxetFragment"
+        android:name="com.example.classroom02.ui.fragment.nhanxetFragment"
         android:label="detail"
         tools:layout="@layout/fragment_nhanxet" />
 </navigation>

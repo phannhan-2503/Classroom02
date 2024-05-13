@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.ui.news;
+package com.example.classroom02.ui.news;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,15 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.quanlybantingiaovien.MainActivity;
-import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.adapter.dsbaigiangadapter;
-import com.example.quanlybantingiaovien.databinding.FragmentNewsBinding;
-import com.example.quanlybantingiaovien.model.taptinModel;
-import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
-import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
-import com.example.quanlybantingiaovien.ui.fragment.updatebaigiangFragment;
-import com.example.quanlybantingiaovien.ui.fragment.nhanxetFragment;
+import com.example.classroom02.MainActivity_BangTin;
+import com.example.classroom02.R;
+import com.example.classroom02.adapter.dsbaigiangadapter;
+import com.example.classroom02.databinding.FragmentNewsBinding;
+import com.example.classroom02.model.taptinModel;
+import com.example.classroom02.model.thongtinbaigiangModel;
+import com.example.classroom02.ui.fragment.chitietbaigiangFragment;
+import com.example.classroom02.ui.fragment.updatebaigiangFragment;
+import com.example.classroom02.ui.fragment.nhanxetFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +45,7 @@ public class NewsFragment extends Fragment {
     private List<thongtinbaigiangModel> dataList;
     private View mView;
     private NewsFragment newsFragment;
-    private MainActivity mainActivity;
+    private MainActivity_BangTin mainActivityBangTin;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

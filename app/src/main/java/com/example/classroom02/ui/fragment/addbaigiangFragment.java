@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.ui.fragment;
+package com.example.classroom02.ui.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -33,10 +33,10 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quanlybantingiaovien.MainActivity;
-import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.adapter.addbaigiangadapter;
-import com.example.quanlybantingiaovien.model.taptinModel;
+import com.example.classroom02.MainActivity_BangTin;
+import com.example.classroom02.R;
+import com.example.classroom02.adapter.addbaigiangadapter;
+import com.example.classroom02.model.taptinModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -63,7 +63,7 @@ public class addbaigiangFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     private static final int MY_REQUEST_CODE = 28082002;
     private View mView;
-    private MainActivity mainActivity;
+    private MainActivity_BangTin mainActivityBangTin;
     private List<taptinModel> selectedFiles = new ArrayList<>();
     private RecyclerView recyclerView;
     private addbaigiangadapter addbaidangadapter;
@@ -120,10 +120,10 @@ public class addbaigiangFragment extends Fragment {
 
         // Inflate the layout for this fragment
         mView= inflater.inflate(R.layout.fragment_addbbaigiang, container, false);
-        mainActivity = (MainActivity) getActivity();
+        mainActivityBangTin = (MainActivity_BangTin) getActivity();
         recyclerView = mView.findViewById(R.id.recycler_addfile);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
-        addbaidangadapter = new addbaigiangadapter(mainActivity,selectedFiles);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivityBangTin));
+        addbaidangadapter = new addbaigiangadapter(mainActivityBangTin,selectedFiles);
         recyclerView.setAdapter(addbaidangadapter);
 
         TextView uploadButton = mView.findViewById(R.id.btn_add_choosefile);
@@ -284,7 +284,7 @@ public class addbaigiangFragment extends Fragment {
             openFileChooser();
         }
         else{
-            ActivityCompat.requestPermissions(mainActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
+            ActivityCompat.requestPermissions(mainActivityBangTin, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
         }
     }
 

@@ -8,11 +8,11 @@ android {
         create("my_config") {
         }
     }
-    namespace = "com.example.quanlybantingiaovien"
+    namespace = "com.example.classroom02"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.quanlybantingiaovien"
+        applicationId = "com.example.classroom02"
         minSdk = 31
         targetSdk = 34
         versionCode = 1
@@ -38,7 +38,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.appcompat:appcompat:1.6.1")
+
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")

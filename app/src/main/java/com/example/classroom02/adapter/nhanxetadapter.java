@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.adapter;
+package com.example.classroom02.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,14 +9,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.quanlybantingiaovien.model.nhanxetModel;
+import com.example.classroom02.model.nhanxetModel;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quanlybantingiaovien.R;
+import com.example.classroom02.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 

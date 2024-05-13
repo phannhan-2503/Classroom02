@@ -1,16 +1,10 @@
-package com.example.quanlybantingiaovien.model;
+package com.example.classroom02.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import com.google.firebase.database.Exclude;
-import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 public class thongtinbaigiangModel implements Parcelable {
     @Exclude
@@ -94,11 +88,11 @@ public class thongtinbaigiangModel implements Parcelable {
         this.ngayDangTin = ngayDangTin;
     }
 
-    public List<com.example.quanlybantingiaovien.model.taptinModel> getTaptinModel() {
+    public List<com.example.classroom02.model.taptinModel> getTaptinModel() {
         return taptinModel;
     }
 
-    public void setTaptinModel(List<com.example.quanlybantingiaovien.model.taptinModel> taptinModel) {
+    public void setTaptinModel(List<com.example.classroom02.model.taptinModel> taptinModel) {
         this.taptinModel = taptinModel;
     }
 

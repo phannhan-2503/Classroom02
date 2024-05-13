@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.ui.fragment;
+package com.example.classroom02.ui.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -33,12 +33,12 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quanlybantingiaovien.MainActivity;
-import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.adapter.taptinbaigiangadapter;
-import com.example.quanlybantingiaovien.adapter.updatebaigiangadapter;
-import com.example.quanlybantingiaovien.model.taptinModel;
-import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
+import com.example.classroom02.MainActivity_BangTin;
+import com.example.classroom02.R;
+import com.example.classroom02.adapter.taptinbaigiangadapter;
+import com.example.classroom02.adapter.updatebaigiangadapter;
+import com.example.classroom02.model.taptinModel;
+import com.example.classroom02.model.thongtinbaigiangModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -64,7 +64,7 @@ public class updatebaigiangFragment extends Fragment {
 
     private static final int MY_REQUEST_CODE = 2808;
     private View mView;
-    private MainActivity mainActivity;
+    private MainActivity_BangTin mainActivityBangTin;
     private List<taptinModel> selectedFiles = new ArrayList<>();
     private RecyclerView recyclerView;
     private updatebaigiangadapter updatebaidangadapter;
@@ -127,7 +127,7 @@ public class updatebaigiangFragment extends Fragment {
 
         // Inflate the layout for this fragment
         mView= inflater.inflate(R.layout.fragment_updatebaigiang, container, false);
-        mainActivity = (MainActivity) getActivity();
+        mainActivityBangTin = (MainActivity_BangTin) getActivity();
         recyclerView = mView.findViewById(R.id.recycler_updatefile);
         noiDungTin=mView.findViewById(R.id.ed_updatendthongbao);
         //truyền dữ liệu giữa fragment
@@ -145,8 +145,8 @@ public class updatebaigiangFragment extends Fragment {
         recyclerView.setAdapter(tapTinAdapter);
 
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
-        updatebaidangadapter = new updatebaigiangadapter(mainActivity,selectedFiles);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivityBangTin));
+        updatebaidangadapter = new updatebaigiangadapter(mainActivityBangTin,selectedFiles);
         recyclerView.setAdapter(updatebaidangadapter);
 
 
@@ -196,7 +196,7 @@ public class updatebaigiangFragment extends Fragment {
             openFileChooser();
         }
         else{
-            ActivityCompat.requestPermissions(mainActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
+            ActivityCompat.requestPermissions(mainActivityBangTin, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_CODE);
         }
     }
 

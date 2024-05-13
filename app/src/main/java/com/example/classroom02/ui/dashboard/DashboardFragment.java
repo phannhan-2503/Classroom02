@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.ui.dashboard;
+package com.example.classroom02.ui.dashboard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.quanlybantingiaovien.databinding.FragmentHomeworkBinding;
+import com.example.classroom02.databinding.FragmentHomeworkBinding;
 
 public class DashboardFragment extends Fragment {
 

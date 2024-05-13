@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.ui.notifications;
+package com.example.classroom02.ui.notifications;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

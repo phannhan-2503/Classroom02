@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.model;
+package com.example.classroom02.model;
 
 
 import com.google.firebase.database.Exclude;

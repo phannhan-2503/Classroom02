@@ -1,8 +1,8 @@
-package com.example.quanlybantingiaovien;
+package com.example.classroom02;
 
 import android.os.Bundle;
 
-import com.example.quanlybantingiaovien.databinding.ActivityMainBinding;
+import com.example.classroom02.databinding.ActivityMainBangTinBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -10,15 +10,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity  {
-    private ActivityMainBinding binding;
+public class MainActivity_BangTin extends AppCompatActivity  {
+    private ActivityMainBangTinBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBangTinBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);

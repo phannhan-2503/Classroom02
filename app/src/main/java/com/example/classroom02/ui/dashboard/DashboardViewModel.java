@@ -1,4 +1,4 @@
-package com.example.quanlybantingiaovien.ui.dashboard;
+package com.example.classroom02.ui.dashboard;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

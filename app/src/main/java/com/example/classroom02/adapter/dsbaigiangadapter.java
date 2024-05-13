@@ -1,17 +1,8 @@
-package com.example.quanlybantingiaovien.adapter;
+package com.example.classroom02.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,18 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.quanlybantingiaovien.R;
-import com.example.quanlybantingiaovien.model.nhanxetModel;
-import com.example.quanlybantingiaovien.model.thongtinbaigiangModel;
-import com.example.quanlybantingiaovien.model.taptinModel;
-import com.example.quanlybantingiaovien.ui.fragment.chitietbaigiangFragment;
+import com.example.classroom02.R;
+import com.example.classroom02.model.thongtinbaigiangModel;
+import com.example.classroom02.model.taptinModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
