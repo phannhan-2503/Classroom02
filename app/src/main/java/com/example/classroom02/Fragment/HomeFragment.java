@@ -143,9 +143,14 @@ public class HomeFragment extends Fragment {
                         String id = dataSnapshot.child("id").getValue(String.class);
                         String name = dataSnapshot.child("name").getValue(String.class);
                         String imageUrl = dataSnapshot.child("imageUrl").getValue(String.class);
-                        Classroom classroom = new Classroom(id,imageUrl ,name,"","","");
-                        classrooms.add(classroom);
-                        classroomAdapter.setData(classrooms);
+                        String creatorId = dataSnapshot.child("creatorId").getValue(String.class);
+                        boolean archived = dataSnapshot.child("archived").getValue(Boolean.class);
+
+                        if (!archived) { // Only add non-archived classes
+                            Classroom classroom = new Classroom(id, imageUrl, name, "", "", "", creatorId, archived);
+                            classrooms.add(classroom);
+                            classroomAdapter.setData(classrooms);
+                        }
                     }
                 }
 
@@ -156,6 +161,7 @@ public class HomeFragment extends Fragment {
             });
         }
     }
+
 
     private void openJoinClassFragment() {
         Fragment newFragment = new JoinclassFragment();

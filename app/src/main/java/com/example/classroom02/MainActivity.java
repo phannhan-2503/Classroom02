@@ -21,10 +21,6 @@ import com.example.classroom02.Fragment.ArchivedClassesFragment;
 import com.example.classroom02.Fragment.HomeFragment;
 import com.example.classroom02.Fragment.NotificationFragment;
 import com.example.classroom02.Fragment.SettingsFragment;
-import com.example.classroom02.Fragment.TeachFragment;
-import com.example.classroom02.databinding.ActivityMainBinding;
-import com.example.classroom02.ui.exer.ExerFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar); //Ignore red line errors
         setSupportActionBar(toolbar);
+
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_views);
         navigationView.setNavigationItemSelectedListener(this);

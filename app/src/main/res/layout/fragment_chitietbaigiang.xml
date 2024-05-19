@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.chitietbaigiangFragment"
+    tools:context="Fragment.chitietbaigiangFragment"
     android:orientation="vertical"
     >
-
-    <!-- TODO: Update blank fragment layout -->
     <include layout="@layout/toolbar_chitietbaigiang"></include>
+    <!-- TODO: Update blank fragment layout -->
+<!--    <include layout="@layout/toolbar_chitietbaigiang"></include>-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,33 +61,42 @@
         android:text="noi dung"
         android:id="@+id/noidung_chitietbaigiang"
         android:textSize="16dp"
-        android:paddingStart="10dp"></TextView>
+        android:paddingStart="10dp"
+        android:layout_above="@+id/nxlh"
+        ></TextView>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recycler_filectbaigiang"
         />
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nhận xét lớp học"
-        android:textSize="16dp"
-        android:paddingStart="10dp"
-        />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/nxlh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhận xét lớp học"
+            android:textSize="16dp"
+            android:paddingStart="10dp"
+            />
+        <TextView
+            android:id="@+id/addnhanxetlophoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thêm nhận xét lớp học"
+            android:textColor="#0582E4"
+            android:textSize="16dp"
+            android:paddingStart="10dp"
+            />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recycler_nhanxetlophoc_ctbaigiang"
+        android:layout_above="@+id/addnhanxetlophoc"
         />
-    <TextView
-        android:id="@+id/addnhanxetlophoc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Thêm nhận xét lớp học"
-        android:textColor="#0582E4"
-        android:textSize="16dp"
-        android:paddingStart="10dp"
-        />
+
 
 
 </LinearLayout>
