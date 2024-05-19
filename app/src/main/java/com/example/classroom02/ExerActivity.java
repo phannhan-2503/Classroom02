@@ -16,7 +16,7 @@ public class ExerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_dashboard);
 
-        fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.add);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

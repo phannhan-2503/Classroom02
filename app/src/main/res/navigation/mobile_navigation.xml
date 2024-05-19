@@ -30,6 +30,10 @@
         android:name="com.example.classroom02.ui.dashboard.DashboardFragment"
         android:label="@string/title_baitap"
         tools:layout="@layout/fragment_dashboard" >
+
+        <action
+            android:id="@+id/action_navigation_dashboard_to_uploadExer"
+            app:destination="@id/uploadExer" />
     </fragment>
     <fragment
         android:id="@+id/navigation_notifications"
@@ -60,4 +64,9 @@
         android:name="com.example.classroom02.Fragment.nhanxetFragment"
         android:label="detail"
         tools:layout="@layout/fragment_nhanxet" />
+    <activity
+        android:id="@+id/uploadExer"
+        android:label="uploadExer"
+        android:name="com.example.classroom02.UploadExerActivity"
+        tools:layout="@layout/activity_upload_exer" />
 </navigation>
