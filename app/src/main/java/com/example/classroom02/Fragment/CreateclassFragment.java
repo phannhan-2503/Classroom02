@@ -90,7 +90,7 @@ public class CreateclassFragment extends Fragment {
         String classId = classDatabaseReference.push().getKey();
 
         // Create a new Classroom object
-        Classroom newClass = new Classroom(classId, randomImageUrl, name, part, room, theme);
+        Classroom newClass = new Classroom(classId, randomImageUrl, name, part, room, theme, userId, false);
 
         // Push the new class to Firebase Database
         classDatabaseReference.child(classId).setValue(newClass)

@@ -14,4 +14,9 @@
     <string name="Username">Username\n</string>
     <string name="Phone">Phone</string>
     <string name="default_web_client_id">526819218023-ro8q1lmin9svv12c1eodmqcj5rtg74hq.apps.googleusercontent.com</string>
+    <string name="title_activity_quan_ly_ban_tin_giao_vien">QuanLyBanTinGiaoVien</string>
+    <string name="title_bangtin">Bảng tin</string>
+    <string name="title_baitap">Bài tập</string>
+    <string name="title_moinguoi">Mọi người</string>
+    <string name="title_activity_quanlybantingiaovien">Quanlybantingiaovien</string>
 </resources>

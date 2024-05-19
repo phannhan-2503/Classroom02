@@ -7,19 +7,23 @@ public class Classroom {
     private String part;
     private String room;
     private String theme;
+    private String creatorId;
+    private boolean archived;
 
     public Classroom() {
         // Empty constructor required for Firebase
     }
 
     // Constructor
-    public Classroom(String id, String imageUrl, String name, String part, String room, String theme) {
+    public Classroom(String id, String imageUrl, String name, String part, String room, String theme, String creatorId, boolean archived) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.name = name;
         this.part = part;
         this.room = room;
         this.theme = theme;
+        this.creatorId = creatorId;
+        this.archived = archived;
     }
 
 
@@ -69,5 +73,20 @@ public class Classroom {
 
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 }
