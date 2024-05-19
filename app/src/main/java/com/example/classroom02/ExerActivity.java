@@ -20,8 +20,8 @@ public class ExerActivity extends AppCompatActivity {
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ExerActivity.this,UploadExerActivity.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(ExerActivity.this, UploadExerActivity.class);
                 startActivity(intent);
             }
         });
