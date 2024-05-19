@@ -7,5 +7,10 @@
         <item name="colorPrimaryVariant">@color/lavender</item>
     </style>
 
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="Theme.Classroom02" parent="Base.Theme.Classroom02" />
 </resources>
